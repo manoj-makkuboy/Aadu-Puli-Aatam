@@ -56,16 +56,16 @@ public class Test {
     p23.direction(p22,null,p18,null);
     
     p4.add_tiger();   //Default tiger position
-    p5.add_tiger();   //Default tiger position 
-    
-    
-    p4.move_tiger(p4.left);  //moves tiger from p4 to left of p4 i.e. p3 
+    p5.add_tiger(); //Default tiger position 
+    p3.add_goat();
+    p1.add_goat();
+  p4.move_tiger(p4.top);  //moves tiger from p4 to left of p4 i.e. p3 
     
     System.out.println("Tiger at p5 "+p5.tiger+" goat :"+p5.goat);
     System.out.println("Tiger at p4 "+p4.tiger+" goat :"+p4.goat);
     System.out.println("Tiger at p3 "+p3.tiger+" goat :"+p3.goat);
     System.out.println("Tiger at p2 "+p2.tiger+" goat :"+p2.goat);
-    
+    System.out.println("Tiger at p1 "+p1.tiger+" goat :"+p1.goat);
     
 	}
 
