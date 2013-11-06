@@ -2,14 +2,15 @@ package board;
 
 
 public class Test {
+	static Board p[]=new Board[24];
 	 
 
-	public static void main(String[] args)throws NullPointerException {
+	public static void main(String args[])throws NullPointerException {
 		// TODO Auto-generated method stub
      
      
-   
-		 Board p[]=new Board[24];
+   Test t = new Test();
+		 
      
     p[0] = new Board(10,6,"p[0]");
     p[1] = new Board(0,7,"p[1]");
@@ -70,27 +71,33 @@ public class Test {
     catch(NullPointerException e){ // activated when move out of range
     	System.out.println("Move Out of Range : Invalid move");
     }
+    t.display();
     
     
     
     
-    System.out.println("Tiger at");//Display
- for(int i=0;i<22;i++) 
- {	if(p[i].tiger==true)
- 	{
-    System.out.println("p["+i+"]");
- 	}
- }
- 	System.out.println("Goat at");
- for(int i=0;i<22;i++)
- {
-	 if(p[i].goat==true)
-	 {
-		 System.out.println("p["+i+"]");
-	 }
+ 
  	
- }	
+ }
+	void display(){
+		   System.out.println("Tiger at");//Display
+		   for(int i=0;i<22;i++) 
+		   {	if(p[i].tiger==true)
+		   	{
+		      System.out.println("p["+i+"]");
+		   	}
+		   }
+		   	System.out.println("Goat at");
+		   for(int i=0;i<22;i++)
+		   {
+		  	 if(p[i].goat==true)
+		  	 {
+		  		 System.out.println("p["+i+"]");
+		  	 }
+	}
+	
     
 	}
-
 }
+
+
