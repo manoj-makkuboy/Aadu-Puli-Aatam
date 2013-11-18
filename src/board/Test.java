@@ -4,9 +4,11 @@ import java.util.Scanner;
 
 
 public class Test {
-	static Board p[]=new Board[24];
+	public Board p[]=new Board[24];
 	
-	Board[] Tiger = new Board[4];
+	Board[] Tiger = new Board[3];
+	Board[] Goat  = new Board[15];
+	
 
 	public void Board_config(){
 		// TODO Auto-generated method stub
@@ -18,7 +20,7 @@ public class Test {
      
     p[0] = new Board(380,20,"p[0]");
     
-    p[1] = new Board(110,225,"p[1]");
+    p[1] = new Board(50,225,"p[1]");
     p[2] = new Board(225,225,"p[2]");
     p[3] = new Board(325,225,"p[3]");
     p[4] = new Board(440,225,"p[4]");
@@ -66,18 +68,15 @@ public class Test {
     p[21].direction(p[20], p[22], p[16], null);
     p[22].direction(p[21],null,p[17],null);
     
- //   p[2].add_tiger(); 				//Default tiger position
+				//Default tiger position
   p[0].add_tiger();
   p[3].add_tiger();
   p[4].add_tiger();
   
-  
-  
+  p[2].add_goat();
+  p[9].add_goat();
 
-//  p[0].add_tiger();
-//  p[3].add_tiger();
-    
- //   p[3].add_goat();
+
     
     
 	} 
@@ -145,10 +144,10 @@ public class Test {
 	void display(){
 		 Game T_Game = new Game();//Testing
 		 int[][] a = new int[3][3];
-		 int l,m;
-		 
+		 int[][] goat_coordinate = new int[15][15];
+		 int j,i;
 		   System.out.println("Tiger at");//Display
-		   for(int j=0,i=0;i<22;i++){	
+		   for(j=0,i=0;i<22;i++){	
 			   if(p[i].tiger==true)
 		   	{
 		      System.out.println("p["+i+"]");
@@ -174,13 +173,32 @@ public class Test {
 		   T_Game.move_coin(a);
 		  
 		   	System.out.println("Goat at");
-		   for(int i=0;i<22;i++)
+		   	j=0;
+		   for(i=0;i<22;i++)
 		   {
 		  	 if(p[i].goat==true)
-		  	 {
+		  	 {	
 		  		 System.out.println("p["+i+"]");
+		  		 Goat[j]=p[i];
+		  		 j++;
+		  		
 		  	 }
+		   }
+	for(i=0;i<j;i++){
+		for(int l=0;l<2;l++){
+			if(l==0){
+				goat_coordinate[i][0] = Goat[i].X;
+			}
+			if(l==1){
+				goat_coordinate[i][1] = Goat[i].Y;
+			}
+		}
 	}
+		   
+		   
+		   
+		   
+	 T_Game.move_goat(goat_coordinate,i);
 	
     
 	}

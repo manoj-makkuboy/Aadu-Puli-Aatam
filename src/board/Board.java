@@ -9,7 +9,7 @@ public class Board extends Game{
 	
 	
 	
-	int X,Y;
+	public int X,Y;
 	String point_name; 
 	boolean tiger,goat,vacant=true;
     Board left,right,top,bottom;
@@ -35,8 +35,8 @@ public class Board extends Game{
 	  this.tiger = true;
 	  this.vacant = false;
 	  
-	  this.move_coin(this);
-	  no_tiger++;
+	  
+	 
 	  
 	  
 	  
@@ -74,7 +74,7 @@ if(		   (this.equals(destination.left))   //Checking "over jump"
 		  this.vacant = true;								//changes the states of this and destination for moving
 		  destination.vacant = false;
 		  
-		  this.move_coin(destination);
+		
 		  
 	  }
 	  else if(destination.tiger==true){
@@ -96,9 +96,9 @@ if(		   (this.equals(destination.left))   //Checking "over jump"
 		            	 destination.goat = false;
 		            	 System.out.println("EatCondition satisfied");
 		            	 this.move_tiger(destination);	
-		            	 this.move_coin(destination);	//needs change while creating gui													//moving by 2 step while eating
+		            	 	//needs change while creating gui													//moving by 2 step while eating
 		            	 destination.move_tiger(destination.left);
-		            	 this.move_coin(destination);
+		            	 
 		            	 no_goat--;										//static int for number of goat 
 		            	
 		             }
@@ -108,9 +108,9 @@ if(		   (this.equals(destination.left))   //Checking "over jump"
 		            	 destination.goat = false;
 		            	 System.out.println("EatCondition satisfied");
 		            	 this.move_tiger(destination);//Moving by 2 step 
-		            	 this.move_coin(destination);
+		      
 		            	 destination.move_tiger(destination.bottom);
-		            	 this.move_coin(destination);
+		            	
 		            	 no_goat--;										//static int for number of goat	   
 		             }
 		             else if((this.equals(destination.bottom)
@@ -119,9 +119,9 @@ if(		   (this.equals(destination.left))   //Checking "over jump"
 		            	 destination.goat = false;
 		            	 System.out.println("EatCondition satisfied");
 		            	 this.move_tiger(destination);//Moving by 2 step
-		            	 this.move_coin(destination);
+		            	 
 		            	 destination.move_tiger(destination.top);
-		            	 this.move_coin(destination);
+		            	
 		            	 no_goat--;										//staic int for number of goat
 		             }
 		             else if((this.equals(destination.left)
@@ -130,9 +130,9 @@ if(		   (this.equals(destination.left))   //Checking "over jump"
 		            	 destination.goat = false;
 		            	 System.out.println("EatCondition satisfied");
 		            	 this.move_tiger(destination);					//Moving by 2 step
-		            	 this.move_coin(destination);
+		            	
 		            	 destination.move_tiger(destination.right);
-		            	 this.move_coin(destination);
+		            
 		            	 no_goat--;
 		             }
 		             else {
