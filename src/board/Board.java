@@ -11,6 +11,8 @@ public class Board {
 	Coin[] Tiger = new Coin[3];
 	Coin[] Goat  = new Coin[24];
 	
+	
+	boolean goatInsertionEnded = false;
 
 	public void Coin_config(){
 		// TODO Auto-generated method stub
@@ -27,8 +29,8 @@ public class Board {
     p[3] = new Coin(325,225,"p[3]");
     p[4] = new Coin(440,225,"p[4]");
     p[5] = new Coin(500,225,"p[5]");
-    
     p[6] = new Coin(700,220,"p[6]");
+    
     p[7] = new Coin(50,310,"p[7]");
     p[8] = new Coin(200,310,"p[8]");
     p[9] = new Coin(320,310,"p[9]");
@@ -133,15 +135,15 @@ public class Board {
 	   System.out.println("Over jumping condition caught in Board.java");
    }  
     
-   else if(p[i].tiger==true && tigers_move == true){
+   else if(p[i].tiger==true && tigers_move == true){					//Checking is it tiger's turn
     
     
 	    try{
 	    	System.out.println("Valid move for tiger");
-	    	p[i].move_coin(p[j]);    //moves tiger
+	    	p[i].move_coin(p[j]);    									
 	    	tigers_move=false;
 	    }
-	    catch(NullPointerException e){ // activated when move out of range
+	    catch(NullPointerException e){ 									// activated when move out of range
 	    	System.out.println("Move Out of Range : Invalid move");
 	    }
     }
@@ -149,15 +151,30 @@ public class Board {
     	System.out.println("this is invalid move for tiger");
     	
     }
-    else if(p[i].goat==true && tigers_move == false){
-    	try{
-	    	System.out.println("Valid move for goat");
-	    	p[i].move_coin(p[j]);    //moves tiger
-	    	tigers_move=true;
-	    }
-	    catch(NullPointerException e){ // activated when move out of range
-	    	System.out.println("Move Out of Range : Invalid move");
-	    }
+    else if(tigers_move == false){						//checking "is it goat's turn"
+    	
+    	
+    	if(Coin.no_goat<=15 && goatInsertionEnded == false){		
+    	
+    		if(Coin.no_goat == 15){
+    			goatInsertionEnded = true;
+    			
+    		}
+    		
+    		p[i].add_goat();
+    		tigers_move = true;
+	    	
+    	}
+    	else if(goatInsertionEnded == true){
+    		try{
+		    	System.out.println("Valid move for goat");
+		    	p[i].move_coin(p[j]);    //moves tiger
+		    	tigers_move=true;
+		    }
+		    catch(NullPointerException e){ // activated when move out of range
+		    	System.out.println("Move Out of Range : Invalid move");
+		    }
+    	}
   
     	
     }
@@ -238,7 +255,7 @@ public class Board {
 		   
 	 T_Game.move_goat(Goat,j-1);
 	
-    
+    System.out.println("No. of goat = "+Coin.no_goat);
 	}
 
 }
