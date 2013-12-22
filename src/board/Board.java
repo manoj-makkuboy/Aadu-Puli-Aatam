@@ -1,153 +1,200 @@
 package board;
 
-@SuppressWarnings("serial")
-public class Board extends Game{
-	static int no_goat,no_tiger;
-	
-	
-	
-	
-	
-	
-	public int X,Y;
-	String point_name; 
-	boolean tiger,goat,vacant=true;
-    Board left,right,top,bottom;
-	Board(int x,int y,String name){// Constructor
-		X = x;
-		Y = y;
-		point_name = name;
-		}
-  public void direction(Board L,Board R,Board T,Board B){
-	  	
-	  		
-	  			
-	  		left = L;
-	  		right = R;
-		    top = T;
-		    bottom = B;
-		    
-	  		
-	}
-  
- 
-  void add_tiger(){
-	  this.tiger = true;
-	  this.vacant = false;
-	  
-	  
-	 
-	  
-	  
-	  
-  	}
-  void add_goat(){
-	  this.goat = true; 
-	  this.vacant = false;
-	  no_goat++;
-  	}
-  
-  
-  void move_tiger(Board destination){
-	  boolean p0=false;
-	  
-	  if(this.vacant == true){  //Checking FROM point for coin
-		  System.out.println("The FROM point has no coin");
-		  return;
-	  }
-	  
-if(		   (this.equals(destination.left))   //Checking "over jump"
-		|| (this.equals(destination.right))
-		|| (this.equals(destination.top))
-		|| (this.equals(destination.bottom)) )
- {
-		
-		
-	  if(destination.point_name.equalsIgnoreCase("p[0]")){//Checking whether destination is p0
-		  p0 = true;
-	  }
-		  
-	  
-	  if(destination.tiger==false && destination.goat==false){  //change of coin position if destination is vacant
-		  this.tiger = false;
-		  destination.tiger = true;
-		  this.vacant = true;								//changes the states of this and destination for moving
-		  destination.vacant = false;
-		  
-		
-		  
-	  }
-	  else if(destination.tiger==true){
-		  System.out.println("Invalid move 'Tiger exists'");
-	  }
-	  else if(destination.goat==true){//checking eat condition
-		  
-		  	if(p0==true){//if destination is p0 no need to continue checking conditions
-		  		System.out.println("Can't move 'goat exists'");
-		  		return;
-		  	}
-		  	
-		  
-		  
-		  				if((this.equals(destination.right) 		
-		            		 && destination.left.tiger==false
-		            		 && destination.left.goat==false)){
-		            	 
-		            	 destination.goat = false;
-		            	 System.out.println("EatCondition satisfied");
-		            	 this.move_tiger(destination);	
-		            	 	//needs change while creating gui													//moving by 2 step while eating
-		            	 destination.move_tiger(destination.left);
-		            	 
-		            	 no_goat--;										//static int for number of goat 
-		            	
-		             }
-		             else if((this.equals(destination.top)
-		            		 && destination.bottom.tiger==false
-		            		 && destination.bottom.goat==false)){
-		            	 destination.goat = false;
-		            	 System.out.println("EatCondition satisfied");
-		            	 this.move_tiger(destination);//Moving by 2 step 
-		      
-		            	 destination.move_tiger(destination.bottom);
-		            	
-		            	 no_goat--;										//static int for number of goat	   
-		             }
-		             else if((this.equals(destination.bottom)
-		            		 && destination.top.tiger==false
-		            		 && destination.top.goat == false)){
-		            	 destination.goat = false;
-		            	 System.out.println("EatCondition satisfied");
-		            	 this.move_tiger(destination);//Moving by 2 step
-		            	 
-		            	 destination.move_tiger(destination.top);
-		            	
-		            	 no_goat--;										//staic int for number of goat
-		             }
-		             else if((this.equals(destination.left)
-		            		 && destination.right.tiger==false
-		            		 && destination.right.goat==false)){
-		            	 destination.goat = false;
-		            	 System.out.println("EatCondition satisfied");
-		            	 this.move_tiger(destination);					//Moving by 2 step
-		            	
-		            	 destination.move_tiger(destination.right);
-		            
-		            	 no_goat--;
-		             }
-		             else {
-		            	 System.out.println("Eat condition Not satisfied");
-		             }
-	  }
- }//end of "over jump" if
-else
-{
-	System.out.println("Over jump not valid");
-	}
-   
-  
+import java.util.Scanner;
 
-  }
+
+public class Board {
+	public Coin p[]=new Coin[24];
+	
+	Coin[] Tiger = new Coin[3];
+	Coin[] Goat  = new Coin[15];
+	
+
+	public void Coin_config(){
+		// TODO Auto-generated method stub
+     
+     
   
+	
+   
+     
+    p[0] = new Coin(380,20,"p[0]");
+    
+    p[1] = new Coin(50,225,"p[1]");
+    p[2] = new Coin(225,225,"p[2]");
+    p[3] = new Coin(325,225,"p[3]");
+    p[4] = new Coin(440,225,"p[4]");
+    p[5] = new Coin(500,225,"p[5]");
+    
+    p[6] = new Coin(700,220,"p[6]");
+    p[7] = new Coin(50,310,"p[7]");
+    p[8] = new Coin(200,310,"p[8]");
+    p[9] = new Coin(320,310,"p[9]");
+    p[10] = new Coin(450,310,"p[10]");
+    p[11] = new Coin(550,310,"p[11]");
+    p[12] = new Coin(700,310,"p[12]");
+    p[13] = new Coin(50,395,"p[13]");
+    p[14] = new Coin(150,395,"p[14]");
+    p[15] = new Coin(300,395,"p[15]");
+    p[16] = new Coin(450,395,"p[16]");
+    p[17] = new Coin(600,395,"p[17]");
+    p[18] = new Coin(700,395,"p[18]");
+    p[19] = new Coin(1,1,"p[21]");
+    p[20] = new Coin(3,1,"p[20]");
+    p[21] = new Coin(8,1,"p[21]");
+    p[22] = new Coin(11,1,"p[22]");    
+     
+    p[0].direction(p[2],p[3],p[4],p[5]);
+    p[1].direction(null, p[2], null, p[7]);  
+    p[2].direction(p[1], p[3], p[0], p[8]);
+    p[3].direction(p[2], p[4], p[0], p[9]);
+    p[4].direction(p[3], p[5], p[0], p[10]);
+    p[5].direction(p[4], p[6], p[0], p[11]);
+    p[6].direction(p[5], null, null, p[12]);
+    p[7].direction(null, p[8], p[1], p[2]);
+    p[8].direction(p[7],p[9],p[2],p[14]);
+    p[9].direction(p[8], p[10], p[3], p[15]);
+    p[10].direction(p[9], p[11], p[4], p[16]);
+    p[11].direction(p[10],p[12],p[5],p[17]);
+    p[12].direction(p[11], null, p[6], p[18]);
+    p[13].direction(null, p[14], p[7], null);
+    p[14].direction(p[13], p[15], p[8], p[21]);
+    p[15].direction(p[14], p[16], p[9], p[20]);
+    p[16].direction(p[15], p[17], p[10], p[21]);
+    p[17].direction(p[16], p[18], p[11], p[22]);
+    p[18].direction(p[17],null,p[12],null);
+    p[21].direction(null,p[20],p[14],null);
+    p[20].direction(p[21], p[21], p[15], null);
+    p[21].direction(p[20], p[22], p[16], null);
+    p[22].direction(p[21],null,p[17],null);
+    
+				//Default tiger position
+  p[0].add_tiger();
+  p[3].add_tiger();
+  p[4].add_tiger();
+  
+  p[2].add_goat();
+  p[9].add_goat();
+  p[8].add_goat();
+
+
+    
+    
+	} 
+	
+	void get_input(){
+	
+		
+		
+		
+		
+		int input_from_x,input_from_y,input_to_x,input_to_y , i , j = 0;
+		
+		
+    System.out.println("Enter the FROM points :");
+    @SuppressWarnings("resource")
+	Scanner IN = new Scanner(System.in);
+    
+    System.out.println("FROM x = ");
+    input_from_x=IN.nextInt();
+    System.out.println("FROM y = ");
+    input_from_y=IN.nextInt();
+    
+    System.out.println("Enter the TO points");
+    System.out.println("TO x = ");
+    input_to_x=IN.nextInt();
+    System.out.println("TO y = ");
+    input_to_y=IN.nextInt();
+    
+     
+    
+    for( i=0;i<22;i++){
+    	if(p[i].X == input_from_x && p[i].Y == input_from_y){
+    		break;
+    	}
+    }
+    System.out.println("i ="+i);
+    for(j=0;j<22;j++){
+    	if(p[j].X == input_to_x && p[j].Y == input_to_y){
+    		break;
+    	}
+    }
+    System.out.println("j ="+j);
+    	
+    
+    
+     
+    
+    
+    
+    
+    try{
+    p[i].move_coin(p[j]);  //moves tiger from p[3] to left of p[3] i.e. p[2] 
+    }
+    catch(NullPointerException e){ // activated when move out of range
+    	System.out.println("Move Out of Range : Invalid move");
+    }
+    display();
+    
+    
+    
+    
+ 
+	
+ }
+	void display(){
+		 Game T_Game = new Game();//Testing
+		 int[][] a = new int[3][3];
+		 
+		 int j,i;
+		   System.out.println("Tiger at");//Display
+		   for(j=0,i=0;i<22;i++){	
+			   if(p[i].tiger==true)
+		   	{
+		      System.out.println("p["+i+"]");
+		     
+		     
+		      Tiger[j]=p[i];
+		      j++;		 
+		   	}
+			   
+			  
+		   }
+		   
+		 a[0][0] 	= 	Tiger[0].X;
+		 a[0][1]	=	Tiger[0].Y;
+		 
+		 a[1][0] 	= 	Tiger[1].X;
+		 a[1][1]	=	Tiger[1].Y;
+		  
+		 a[2][0] 	=	Tiger[2].X;
+		 a[2][1]	=	Tiger[2].Y;
+		  
+		  
+		   T_Game.move_coin_gui(a);
+		  
+		   	System.out.println("Goat at");
+		   	j=0;
+		   for(i=0;i<22;i++)
+		   {
+		  	 if(p[i].goat==true)
+		  	 {	
+		  		 System.out.println("p["+i+"]");
+		  		 Goat[j]=p[i];
+		  		 j++;
+		  		
+		  	 }
+		   }
+	
+		   
+		   
+		   
+		   
+	 T_Game.move_goat(Goat,j-1);
+	
+    
+	}
 
 }
+
+
