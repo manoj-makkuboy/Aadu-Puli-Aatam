@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Board {
 	public Coin p[]=new Coin[24];
 	
-	 static boolean tigers_move = true;  //to find whether it is tiger's move or goat's move
+	 static boolean tigers_move = false;  //to find whether it is tiger's move or goat's move
 	
 	Coin[] Tiger = new Coin[3];
 	Coin[] Goat  = new Coin[24];
@@ -66,8 +66,9 @@ public class Board {
     p[16].direction(p[15], p[17], p[10], p[21]);
     p[17].direction(p[16], p[18], p[11], p[22]);
     p[18].direction(p[17],null,p[12],null);
-    p[21].direction(null,p[20],p[14],null);
-    p[20].direction(p[21], p[21], p[15], null);
+    
+    p[19].direction(null,p[20],p[14],null);
+    p[20].direction(p[19], p[21], p[15], null);
     p[21].direction(p[20], p[22], p[16], null);
     p[22].direction(p[21],null,p[17],null);
     
@@ -123,20 +124,40 @@ public class Board {
     }
     System.out.println("j ="+j);
     	
-    
+  
     
      
     
-    if(p[i].tiger && tigers_move == true){
+    if(p[i].tiger==true && tigers_move == true){
     
     
 	    try{
+	    	System.out.println("Valid move for tiger");
 	    	p[i].move_coin(p[j]);    //moves tiger
 	    	tigers_move=false;
 	    }
 	    catch(NullPointerException e){ // activated when move out of range
 	    	System.out.println("Move Out of Range : Invalid move");
 	    }
+    }
+    if(p[i].tiger==true && tigers_move == false){
+    	System.out.println("this is invalid move for tiger");
+    	
+    }
+    if(p[i].goat==true && tigers_move == false){
+    	try{
+	    	System.out.println("Valid move for goat");
+	    	p[i].move_coin(p[j]);    //moves tiger
+	    	tigers_move=true;
+	    }
+	    catch(NullPointerException e){ // activated when move out of range
+	    	System.out.println("Move Out of Range : Invalid move");
+	    }
+    if(p[i].goat==true && tigers_move == true){
+    	System.out.println("this is invalid move for goat");
+    	
+    }
+    	
     }
     
     
