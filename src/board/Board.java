@@ -6,8 +6,10 @@ import java.util.Scanner;
 public class Board {
 	public Coin p[]=new Coin[24];
 	
+	 static boolean tigers_move = true;  //to find whether it is tiger's move or goat's move
+	
 	Coin[] Tiger = new Coin[3];
-	Coin[] Goat  = new Coin[15];
+	Coin[] Goat  = new Coin[24];
 	
 
 	public void Coin_config(){
@@ -39,10 +41,11 @@ public class Board {
     p[16] = new Coin(450,395,"p[16]");
     p[17] = new Coin(600,395,"p[17]");
     p[18] = new Coin(700,395,"p[18]");
-    p[19] = new Coin(1,1,"p[21]");
-    p[20] = new Coin(3,1,"p[20]");
-    p[21] = new Coin(8,1,"p[21]");
-    p[22] = new Coin(11,1,"p[22]");    
+    
+    p[19] = new Coin(50,550,"p[21]");
+    p[20] = new Coin(250,550,"p[20]");
+    p[21] = new Coin(500,550,"p[21]");
+    p[22] = new Coin(700,550,"p[22]");    
      
     p[0].direction(p[2],p[3],p[4],p[5]);
     p[1].direction(null, p[2], null, p[7]);  
@@ -73,10 +76,9 @@ public class Board {
   p[3].add_tiger();
   p[4].add_tiger();
   
-  p[2].add_goat();
-  p[9].add_goat();
-  p[8].add_goat();
-
+ 
+  p[22].add_goat();
+  p[21].add_goat();
 
     
     
@@ -114,7 +116,7 @@ public class Board {
     	}
     }
     System.out.println("i ="+i);
-    for(j=0;j<22;j++){
+    for(j=0;j<=22;j++){
     	if(p[j].X == input_to_x && p[j].Y == input_to_y){
     		break;
     	}
@@ -125,15 +127,19 @@ public class Board {
     
      
     
+    if(p[i].tiger && tigers_move == true){
     
     
-    
-    try{
-    p[i].move_coin(p[j]);  //moves tiger from p[3] to left of p[3] i.e. p[2] 
+	    try{
+	    	p[i].move_coin(p[j]);    //moves tiger
+	    	tigers_move=false;
+	    }
+	    catch(NullPointerException e){ // activated when move out of range
+	    	System.out.println("Move Out of Range : Invalid move");
+	    }
     }
-    catch(NullPointerException e){ // activated when move out of range
-    	System.out.println("Move Out of Range : Invalid move");
-    }
+    
+    
     display();
     
     
@@ -148,7 +154,7 @@ public class Board {
 		 
 		 int j,i;
 		   System.out.println("Tiger at");//Display
-		   for(j=0,i=0;i<22;i++){	
+		   for(j=0,i=0;i<=22;i++){	
 			   if(p[i].tiger==true)
 		   	{
 		      System.out.println("p["+i+"]");
@@ -175,7 +181,7 @@ public class Board {
 		  
 		   	System.out.println("Goat at");
 		   	j=0;
-		   for(i=0;i<22;i++)
+		   for(i=0;i<=22;i++)
 		   {
 		  	 if(p[i].goat==true)
 		  	 {	

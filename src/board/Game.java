@@ -22,7 +22,9 @@ public class Game extends Component {
     Coin[] Tiger_Game=new Coin[3];
     Coin[] Goat_Game = new Coin[15];
     
-    static int goat_coordinate[][]=new int [15][2];
+
+    
+    static int goat_coordinate[][]=new int [24][2];
    
     static int no_of_goat;
 	 

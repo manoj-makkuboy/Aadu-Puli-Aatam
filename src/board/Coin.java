@@ -4,6 +4,8 @@ package board;
 public class Coin extends Game{
 	static int no_goat,no_tiger;
 	
+
+	
 	
 	
 	
