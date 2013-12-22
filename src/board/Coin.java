@@ -59,11 +59,7 @@ public class Coin extends Game{
 		  return;
 	  }
 	  
-if(		   (this.equals(destination.left))   //Checking "over jump"
-		|| (this.equals(destination.right))
-		|| (this.equals(destination.top))
-		|| (this.equals(destination.bottom)) )
- {
+
 		
 		
 	  if(destination.point_name.equalsIgnoreCase("p[0]")){//Checking whether destination is p0
@@ -155,12 +151,7 @@ if(		   (this.equals(destination.left))   //Checking "over jump"
 		            	 System.out.println("Eat condition Not satisfied");
 		             }
 	  }
- }//end of "over jump" if
-else
-{
-	System.out.println("Over jump not valid");
-	}
-   
+
   
 
   }

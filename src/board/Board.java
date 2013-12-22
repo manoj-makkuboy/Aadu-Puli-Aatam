@@ -42,7 +42,7 @@ public class Board {
     p[17] = new Coin(600,395,"p[17]");
     p[18] = new Coin(700,395,"p[18]");
     
-    p[19] = new Coin(50,550,"p[21]");
+    p[19] = new Coin(50,550,"p[19]");
     p[20] = new Coin(250,550,"p[20]");
     p[21] = new Coin(500,550,"p[21]");
     p[22] = new Coin(700,550,"p[22]");    
@@ -85,6 +85,9 @@ public class Board {
     
 	} 
 	
+	
+	
+	
 	void get_input(){
 	
 		
@@ -126,9 +129,11 @@ public class Board {
     	
   
     
-     
+   if(isOverJumping(p[i],p[j])==true){
+	   System.out.println("Over jumping condition caught in Board.java");
+   }  
     
-    if(p[i].tiger==true && tigers_move == true){
+   else if(p[i].tiger==true && tigers_move == true){
     
     
 	    try{
@@ -140,11 +145,11 @@ public class Board {
 	    	System.out.println("Move Out of Range : Invalid move");
 	    }
     }
-    if(p[i].tiger==true && tigers_move == false){
+    else if(p[i].tiger==true && tigers_move == false){
     	System.out.println("this is invalid move for tiger");
     	
     }
-    if(p[i].goat==true && tigers_move == false){
+    else if(p[i].goat==true && tigers_move == false){
     	try{
 	    	System.out.println("Valid move for goat");
 	    	p[i].move_coin(p[j]);    //moves tiger
@@ -153,10 +158,11 @@ public class Board {
 	    catch(NullPointerException e){ // activated when move out of range
 	    	System.out.println("Move Out of Range : Invalid move");
 	    }
-    if(p[i].goat==true && tigers_move == true){
-    	System.out.println("this is invalid move for goat");
+  
     	
     }
+    else if(p[i].goat==true && tigers_move == true){
+    	System.out.println("this is invalid move for goat");
     	
     }
     
@@ -169,6 +175,19 @@ public class Board {
  
 	
  }
+	
+	boolean isOverJumping(Coin FROM,Coin TO){
+		if(		   (FROM.equals(TO.left))   //Checking "over jump"
+		|| (FROM.equals(TO.right))
+		|| (FROM.equals(TO.top))
+		|| (FROM.equals(TO.bottom))){
+			return false;
+			
+		}
+		
+		else
+		return true;
+	}
 	void display(){
 		 Game T_Game = new Game();//Testing
 		 int[][] a = new int[3][3];
