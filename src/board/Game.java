@@ -1,6 +1,5 @@
 package board;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -19,12 +18,11 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class Game extends Component {
    static  int  X_1=380,Y_1=20,X_2=325,Y_2=225,X_3=440,Y_3=225;
-    Coin[] Tiger_Game=new Coin[3];
-    Coin[] Goat_Game = new Coin[15];
+
     
 
     
-    static int goat_coordinate[][]=new int [24][2];
+    static int goat_coordinate[][]=new int [15][2];
    
     static int no_of_goat;
 	 
@@ -33,9 +31,9 @@ public class Game extends Component {
 	
 	
 
-	  protected void move_coin_gui(int a_Game[][]) { // 'x' and 'y' are destination point co-ordinates
+	  protected void move_tiger_gui(int a_Game[][]) { // 'x' and 'y' are destination point co-ordinates
 	    
-	for(int i=0;i<3;i++){
+	
 		
 		X_1=a_Game[0][0];
 		Y_1=a_Game[0][1];
@@ -50,21 +48,21 @@ public class Game extends Component {
 		
 		
 		
-	}	//here 'X' and 'Y' are co-ordinates in which image has to  be draw
+		//here 'X' and 'Y' are co-ordinates in which image has to  be draw
 		
-	//	this.repaint();
+	
 		
 		
 	}
 	  
-void move_goat(Coin goat_c[],int goat_no){
+void move_goat_gui(Coin goat_c[]){
 	
-	no_of_goat = goat_no;
-	for(int i =0;i<=goat_no;i++){
+	
+	for(int i =0;i<Coin.no_goat;i++){
 		
 		
 	goat_coordinate[i][0] = goat_c[i].X;
-	goat_coordinate[i][1] = goat_c[i].Y;
+	goat_coordinate[i][1] = goat_c[i].Y;//	this.repaint();
 	
 	
 		
@@ -79,9 +77,9 @@ void move_goat(Coin goat_c[],int goat_no){
 
 	public Game() {
 	       try {
-	           img = ImageIO.read(new File("/home/manoj/Documents/Project Pictures/Adu-puli-kattam.png"));
-	           tiger_1 = ImageIO.read(new File("/home/manoj/Documents/Project Pictures/tiger.jpg"));
-	           goat =  ImageIO.read(new File("/home/manoj/Documents/Project Pictures/animals-gnu.png"));
+	           img = ImageIO.read(new File("Project Pictures/Adu-puli-kattam.png"));
+	           tiger_1 = ImageIO.read(new File("Project Pictures/tiger.jpg"));
+	           goat =  ImageIO.read(new File("Project Pictures/animals-gnu.png"));
 	       } catch (IOException e){
 	    	System.out.println("Image not loaded");   
 	       }
@@ -103,7 +101,7 @@ void move_goat(Coin goat_c[],int goat_no){
 		
 		
 		
-		for(int l=0;l<=no_of_goat;l++){
+		for(int l=0;l<Coin.no_goat;l++){
 			
 			g2d.drawImage(goat,goat_coordinate[l][0],goat_coordinate[l][1],null);
 		}
@@ -137,12 +135,12 @@ void move_goat(Coin goat_c[],int goat_no){
 		while (true) {
 			
 			
-			OB.get_input();
+			OB.getInput_and_findPoint();
 			game.repaint();
 		
 			
 			
-		Thread.sleep(10);
+
 			
 			
 			

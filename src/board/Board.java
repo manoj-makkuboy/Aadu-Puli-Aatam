@@ -8,8 +8,7 @@ public class Board {
 	
 	 static boolean tigers_move = false;  //to find whether it is tiger's move or goat's move
 	
-	Coin[] Tiger = new Coin[3];
-	Coin[] Goat  = new Coin[24];
+	
 	
 	
 	boolean goatInsertionEnded = false;
@@ -79,9 +78,9 @@ public class Board {
   p[3].add_tiger();
   p[4].add_tiger();
   
- 
-  p[22].add_goat();
-  p[21].add_goat();
+  for(int i=5;i<19;i++){
+	  p[i].add_goat();
+  }
 
     
     
@@ -90,123 +89,125 @@ public class Board {
 	
 	
 	
-	void get_input(){
-	
-		
-		
-		
+	void getInput_and_findPoint(){
 		
 		int input_from_x,input_from_y,input_to_x,input_to_y , i , j = 0;
-		
-		
-    System.out.println("Enter the FROM points :");
-    @SuppressWarnings("resource")
-	Scanner IN = new Scanner(System.in);
-    
-    System.out.println("FROM x = ");
-    input_from_x=IN.nextInt();
-    System.out.println("FROM y = ");
-    input_from_y=IN.nextInt();
-    
-    System.out.println("Enter the TO points");
-    System.out.println("TO x = ");
-    input_to_x=IN.nextInt();
-    System.out.println("TO y = ");
-    input_to_y=IN.nextInt();
-    
-     
-    
-    for( i=0;i<22;i++){
-    	if(p[i].X == input_from_x && p[i].Y == input_from_y){
-    		break;
-    	}
-    }
-    System.out.println("i ="+i);
-    for(j=0;j<=22;j++){
-    	if(p[j].X == input_to_x && p[j].Y == input_to_y){
-    		break;
-    	}
-    }
-    System.out.println("j ="+j);
-    	
-  
-    
-   if(isOverJumping(p[i],p[j])==true){
-	   System.out.println("Over jumping condition caught in Board.java");
-   }  
-    
-   else if(p[i].tiger==true && tigers_move == true){					//Checking is it tiger's turn
-    
-    
-	    try{
-	    	System.out.println("Valid move for tiger");
-	    	p[i].move_coin(p[j]);    									
-	    	tigers_move=false;
+			
+			
+	    System.out.println("Enter the FROM points :");
+	    @SuppressWarnings("resource")
+		Scanner IN = new Scanner(System.in);
+	    
+	    System.out.println("FROM x = ");
+	    input_from_x=IN.nextInt();
+	    System.out.println("FROM y = ");
+	    input_from_y=IN.nextInt();
+	    
+	    System.out.println("Enter the TO points");
+	    System.out.println("TO x = ");
+	    input_to_x=IN.nextInt();
+	    System.out.println("TO y = ");
+	    input_to_y=IN.nextInt();
+	    
+	
+	    
+	    for( i=0;i<22;i++){
+	    	if(p[i].X == input_from_x && p[i].Y == input_from_y){
+	    		break;
+	    	}
 	    }
-	    catch(NullPointerException e){ 									// activated when move out of range
-	    	System.out.println("Move Out of Range : Invalid move");
+	    System.out.println("i ="+i);
+	    for(j=0;j<=22;j++){
+	    	if(p[j].X == input_to_x && p[j].Y == input_to_y){
+	    		break;
+	    	}
 	    }
-    }
-    else if(p[i].tiger==true && tigers_move == false){
-    	System.out.println("this is invalid move for tiger");
-    	
-    }
-    else if(tigers_move == false){						//checking "is it goat's turn"
-    	
-    	
-    	if(Coin.no_goat<=15 && goatInsertionEnded == false){		
-    	
-    		if(Coin.no_goat == 15){
-    			goatInsertionEnded = true;
-    			
-    		}
-    		
-    		p[i].add_goat();
-    		tigers_move = true;
-	    	
-    	}
-    	else if(goatInsertionEnded == true){
-    		try{
-		    	System.out.println("Valid move for goat");
-		    	p[i].move_coin(p[j]);    //moves tiger
-		    	tigers_move=true;
+	    System.out.println("j ="+j);
+	    
+	    takeDecision(i,j);
+	}  				// End of getInput_and_findPoint()
+	  
+	void takeDecision(int i,int j){   
+	   if(isOverJumping(p[i],p[j])==true){
+		   System.out.println("Over jumping condition caught in Board.java");
+	   }  
+	    
+	   else if(p[i].tiger==true && tigers_move == true){					//Checking is it tiger's turn
+	    
+	    
+		    try{
+		    	System.out.println("Valid move for tiger");
+		    	p[i].move_coin(p[j]);    									
+		    	tigers_move=false;
 		    }
-		    catch(NullPointerException e){ // activated when move out of range
+		    catch(NullPointerException e){ 									// activated when move out of range
 		    	System.out.println("Move Out of Range : Invalid move");
 		    }
-    	}
-  
-    	
-    }
-    else if(p[i].goat==true && tigers_move == true){
-    	System.out.println("this is invalid move for goat");
-    	
-    }
-    
-    
-    display();
-    
-    
-    
-    
- 
-	
- }
+	    }
+	    else if(p[i].tiger==true && tigers_move == false){
+	    	System.out.println("this is invalid move for tiger");
+	    	
+	    }
+	    else if(tigers_move == false){						//checking "is it goat's turn"
+	    	
+	    	
+	    	if(Coin.no_goat<=15 && goatInsertionEnded == false && i==j){		
+	    	
+	    		
+	    		p[i].add_goat();
+	    		tigers_move = true;
+	    		
+	    		if(Coin.no_goat == 15){
+	    			goatInsertionEnded = true;
+	    			
+	    		}
+	    		
+		    	
+	    	}
+	    	else if(goatInsertionEnded == true){
+	    		try{
+			    	System.out.println("Valid move for goat");
+			    	p[i].move_coin(p[j]);    								//moves goat
+			    	tigers_move=true;
+			    }
+			    catch(NullPointerException e){ 								// activated when move out of range
+			    	System.out.println("Move Out of Range : Invalid move");
+			    }
+	    	}
+	  
+	    	
+	    }
+	    else if(p[i].goat==true && tigers_move == true){
+	    	System.out.println("this is invalid move for goat");
+	    	
+	    }
+	    
+	    
+	    display();			//Calls display() of Board.java
+	    
+	 
+		
+ }						// End of getInput function
 	
 	boolean isOverJumping(Coin FROM,Coin TO){
 		if(		   (FROM.equals(TO.left))   //Checking "over jump"
 		|| (FROM.equals(TO.right))
 		|| (FROM.equals(TO.top))
-		|| (FROM.equals(TO.bottom))){
+		|| (FROM.equals(TO.bottom)
+		|| (FROM.equals(TO)/*This line is for catching conditions i = j i.e. for condition of adding goat */))){
 			return false;
 			
 		}
 		
 		else
 		return true;
-	}
+	} 							// end of isOverJumping function
 	void display(){
-		 Game T_Game = new Game();//Testing
+		
+		Coin[] Tiger = new Coin[3];
+		Coin[] Goat  = new Coin[24];
+		
+		 Game T_Game = new Game();
 		 int[][] a = new int[3][3];
 		 
 		 int j,i;
@@ -234,7 +235,7 @@ public class Board {
 		 a[2][1]	=	Tiger[2].Y;
 		  
 		  
-		   T_Game.move_coin_gui(a);
+		   T_Game.move_tiger_gui(a);									//updates the gui function of tiger
 		  
 		   	System.out.println("Goat at");
 		   	j=0;
@@ -253,11 +254,10 @@ public class Board {
 		   
 		   
 		   
-	 T_Game.move_goat(Goat,j-1);
+	 T_Game.move_goat_gui(Goat);				// updates the gui function of goat
 	
     System.out.println("No. of goat = "+Coin.no_goat);
 	}
 
 }
-
 
