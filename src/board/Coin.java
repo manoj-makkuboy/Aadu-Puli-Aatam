@@ -37,13 +37,8 @@ public class Coin extends Game{
   void add_tiger(){
 	  this.tiger = true;
 	  this.vacant = false;
-	  
-	  
-	 
-	  
-	  
-	  
-  	}
+	}
+  
   void add_goat(){
 	  this.goat = true; 
 	  this.vacant = false;

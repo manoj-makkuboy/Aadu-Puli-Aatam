@@ -4,14 +4,10 @@ import java.util.Scanner;
 
 
 public class Board {
-	public Coin p[]=new Coin[24];
 	
+	 public Coin p[]=new Coin[24];
 	 static boolean tigers_move = false;  //to find whether it is tiger's move or goat's move
-	
-	
-	
-	
-	boolean goatInsertionEnded = false;
+	 boolean goatInsertionEnded = false;
 
 	public void Coin_config(){
 		// TODO Auto-generated method stub
@@ -74,13 +70,13 @@ public class Board {
     p[22].direction(p[21],null,p[17],null);
     
 				//Default tiger position
-  p[0].add_tiger();
-  p[3].add_tiger();
-  p[4].add_tiger();
-  
-  for(int i=5;i<19;i++){
-	  p[i].add_goat();
-  }
+	  p[0].add_tiger();
+	  p[3].add_tiger();
+	  p[4].add_tiger();
+	  
+	  for(int i=5;i<19;i++){
+		  p[i].add_goat();
+	  }
 
     
     
@@ -91,7 +87,7 @@ public class Board {
 	
 	void getInput_and_findPoint(){
 		
-		int input_from_x,input_from_y,input_to_x,input_to_y , i , j = 0;
+		int input_from_x,input_from_y,input_to_x,input_to_y , i , j;
 			
 			
 	    System.out.println("Enter the FROM points :");
@@ -109,9 +105,22 @@ public class Board {
 	    System.out.println("TO y = ");
 	    input_to_y=IN.nextInt();
 	    
-	
+	   i = gravity(input_from_x, input_from_y);
+	   j = gravity(input_to_x, input_to_y);
+	   
+	   System.out.println("i="+i);
+	   System.out.println("j="+j);
+	   
+	   if(i != 777 && j != 777){
+		   takeDecision(i,j);
+	   }
+	   else{
+		   System.out.println("Invalid input points");
+		   return;
+	   }
 	    
-	    for( i=0;i<22;i++){
+/*	    
+	    for( i=0;i<=22;i++){
 	    	if(p[i].X == input_from_x && p[i].Y == input_from_y){
 	    		break;
 	    	}
@@ -123,10 +132,27 @@ public class Board {
 	    	}
 	    }
 	    System.out.println("j ="+j);
+	    */
 	    
-	    takeDecision(i,j);
 	}  				// End of getInput_and_findPoint()
 	  
+	int gravity(int x, int y){
+		
+		
+		
+		for(int i=0;i<23;i++){
+			if((((p[i].X)-50) < x) && (x < (((p[i].X)+50))) && ((((p[i].Y)-50)) < y) && (y < ((((p[i].Y)+50))))){
+				return i;
+			}
+		}
+			
+				System.out.println("The inputed co-ordinates are invalid");
+				return 777;		// default error value stating invalid position
+			
+	
+	}
+	
+	
 	void takeDecision(int i,int j){   
 	   if(isOverJumping(p[i],p[j])==true){
 		   System.out.println("Over jumping condition caught in Board.java");
