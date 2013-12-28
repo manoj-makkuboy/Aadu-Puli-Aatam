@@ -137,7 +137,16 @@ void move_goat_gui(Coin goat_c[]){
 			
 			OB.getInput_and_findPoint();
 			game.repaint();
-		
+			
+			if(Board.goatWinning == true){
+				System.out.println("The winner is Goat");
+				break;
+			}
+			else if(Board.tigerWinning == true){
+				System.out.println("The Winner is Tiger");
+				break;
+			}
+			
 			
 			
 

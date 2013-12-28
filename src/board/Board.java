@@ -5,17 +5,16 @@ import java.util.Scanner;
 
 public class Board {
 	
-	 public Coin p[]=new Coin[24];
+	 private static final Object NULL = null;
+	public Coin p[]=new Coin[24];
 	 static boolean tigers_move = false;  //to find whether it is tiger's move or goat's move
 	 boolean goatInsertionEnded = false;
+	 static boolean goatWinning = false;
+	 static boolean tigerWinning = false;
 
 	public void Coin_config(){
 		// TODO Auto-generated method stub
-     
-     
   
-	
-   
      
     p[0] = new Coin(380,20,"p[0]");
     
@@ -32,6 +31,7 @@ public class Board {
     p[10] = new Coin(450,310,"p[10]");
     p[11] = new Coin(550,310,"p[11]");
     p[12] = new Coin(700,310,"p[12]");
+    
     p[13] = new Coin(50,395,"p[13]");
     p[14] = new Coin(150,395,"p[14]");
     p[15] = new Coin(300,395,"p[15]");
@@ -51,7 +51,7 @@ public class Board {
     p[4].direction(p[3], p[5], p[0], p[10]);
     p[5].direction(p[4], p[6], p[0], p[11]);
     p[6].direction(p[5], null, null, p[12]);
-    p[7].direction(null, p[8], p[1], p[2]);
+    p[7].direction(null, p[8], p[1], p[13]);
     p[8].direction(p[7],p[9],p[2],p[14]);
     p[9].direction(p[8], p[10], p[3], p[15]);
     p[10].direction(p[9], p[11], p[4], p[16]);
@@ -119,20 +119,6 @@ public class Board {
 		   return;
 	   }
 	    
-/*	    
-	    for( i=0;i<=22;i++){
-	    	if(p[i].X == input_from_x && p[i].Y == input_from_y){
-	    		break;
-	    	}
-	    }
-	    System.out.println("i ="+i);
-	    for(j=0;j<=22;j++){
-	    	if(p[j].X == input_to_x && p[j].Y == input_to_y){
-	    		break;
-	    	}
-	    }
-	    System.out.println("j ="+j);
-	    */
 	    
 	}  				// End of getInput_and_findPoint()
 	  
@@ -227,7 +213,102 @@ public class Board {
 		
 		else
 		return true;
-	} 							// end of isOverJumping function
+	} 									// end of isOverJumping function
+	
+	boolean isGoatWinner(Coin tiger_status[])throws NullPointerException{
+		
+		
+		
+		if ( isGoatWinner(tiger_status[0])==true && isGoatWinner(tiger_status[1]) == true  
+				&& isGoatWinner(tiger_status[2]) == true)
+			return true;
+		else 
+			return false;
+		
+		
+		
+			
+			
+			
+			
+		}
+		
+		
+	
+	boolean isGoatWinner(Coin tiger_status){   // function overloading
+		
+		boolean toReturn = false;
+		int i;
+		for(i = 0;i<23;i++){
+			if((tiger_status.point_name).equals(p[i].point_name))
+				break;
+		}
+		
+		
+		switch(i){
+		
+		case 1:	if(tiger_status.right.vacant == false && tiger_status.bottom.vacant == false)
+					toReturn = true;
+				break;
+				
+				
+		case 6:	if(tiger_status.left.vacant == false && tiger_status.bottom.vacant == false)
+						toReturn = true;
+				break;
+		
+		case 7: if(tiger_status.right.vacant == false && tiger_status.bottom.vacant == false && tiger_status.top.vacant == false)
+					toReturn = true;
+				break;
+		case 12: if(tiger_status.bottom.vacant == false && tiger_status.top.vacant == false && tiger_status.left.vacant == false)
+					toReturn = true;
+				break;
+		case 13: if(tiger_status.top.vacant == false && tiger_status.right.vacant == false)
+					toReturn = true;
+				break;		
+		case 18: 	if(tiger_status.top.vacant == false && tiger_status.left.vacant == false)
+					toReturn = true;
+				break;			
+		case 19:	if(tiger_status.top.vacant == false && tiger_status.right.vacant == false)
+					toReturn = true;
+				break;	
+		
+		case 20:	if(tiger_status.top.vacant == false && tiger_status.left.vacant == false
+						&&  tiger_status.right.vacant == false)
+					toReturn = true;
+				break;
+		
+		case 21:	if(tiger_status.top.vacant == false && tiger_status.left.vacant == false
+						&&  tiger_status.right.vacant == false)
+					toReturn = true;
+				break;
+		
+		case 22:  	if(tiger_status.top.vacant == false && tiger_status.left.vacant == false)
+					toReturn = true;
+				break;
+		default: 	if(tiger_status.top.vacant == false && tiger_status.left.vacant == false
+						&& tiger_status.bottom.vacant == false && tiger_status.right.vacant == false)
+							toReturn = true;
+					
+		
+		
+				
+		}
+		return toReturn;         
+	
+	}
+	
+	
+	
+	boolean isTigerWinner(Coin goat_status[]){
+		
+		if(Coin.goat_killed == 5)	
+			return true;
+		else 
+			return false;
+		
+		
+	}
+	
 	void display(){
 		
 		Coin[] Tiger = new Coin[3];
@@ -280,9 +361,18 @@ public class Board {
 		   
 		   
 		   
-	 T_Game.move_goat_gui(Goat);				// updates the gui function of goat
-	
+	 T_Game.move_goat_gui(Goat);  // updates the gui function of goat
+
+	 
+
     System.out.println("No. of goat = "+Coin.no_goat);
+    
+	 if(isGoatWinner(Tiger)==true)
+		 goatWinning = true;
+	 if(isTigerWinner(Goat)==true)
+		 tigerWinning = true;
+		
+	 
 	}
 
 }

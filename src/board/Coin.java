@@ -2,7 +2,7 @@ package board;
 
 @SuppressWarnings("serial")
 public class Coin extends Game{
-	static int no_goat,no_tiger;
+	static int no_goat,goat_killed;
 	
 
 	
@@ -103,7 +103,8 @@ public class Coin extends Game{
 		            	 	//needs change while creating gui													//moving by 2 step while eating
 		            	 destination.move_coin(destination.left);
 		            	 
-		            	 no_goat--;										//static int for number of goat 
+		            	 no_goat--;	//static int for number of goat 
+		            	 goat_killed++;
 		            	
 		             }
 		             else if((this.equals(destination.top)
@@ -117,6 +118,7 @@ public class Coin extends Game{
 		            	 destination.move_coin(destination.bottom);
 		            	
 		            	 no_goat--;										//static int for number of goat	   
+		            	 goat_killed++;
 		             }
 		             else if((this.equals(destination.bottom)
 		            		 && destination.top.tiger==false
@@ -130,6 +132,7 @@ public class Coin extends Game{
 		            	 destination.move_coin(destination.top);
 		            	
 		            	 no_goat--;										//staic int for number of goat
+		            	 goat_killed++;
 		             }
 		             else if((this.equals(destination.left)
 		            		 && destination.right.tiger==false
@@ -141,6 +144,7 @@ public class Coin extends Game{
 		            	 destination.move_coin(destination.right);
 		            
 		            	 no_goat--;
+		            	 goat_killed++;
 		             }
 		             else {
 		            	 System.out.println("Eat condition Not satisfied");
