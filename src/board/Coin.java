@@ -46,12 +46,14 @@ public class Coin extends Game{
   	}
   
   
-  void move_coin(Coin destination){
+  boolean move_coin(Coin destination){
 	  boolean p0=false;
+	  boolean moveSuccess = false;
 	  
 	  if(this.vacant == true){  //Checking FROM point for coin
 		  System.out.println("The FROM point has no coin");
-		  return;
+		  
+		  return moveSuccess;
 	  }
 	  
 
@@ -64,6 +66,7 @@ public class Coin extends Game{
 	  
 	  if(destination.tiger==false && destination.goat==false){//change of coin position if destination is vacant
 		  
+		moveSuccess=true;
 		
 		  if(this.tiger==true){
 			   
@@ -83,12 +86,13 @@ public class Coin extends Game{
 	  }
 	  else if(destination.tiger==true){
 		  System.out.println("Invalid move 'Tiger exists'");
+		  return moveSuccess;
 	  }
 	  else if(destination.goat==true){//checking eat condition
 		  
 		  	if(p0==true){//if destination is p0 no need to continue checking conditions
 		  		System.out.println("Can't move 'goat exists'");
-		  		return;
+		  		return moveSuccess;
 		  	}
 		  	
 		  
@@ -105,7 +109,7 @@ public class Coin extends Game{
 		            	 
 		            	 no_goat--;	//static int for number of goat 
 		            	 goat_killed++;
-		            	
+		            	 moveSuccess=true;
 		             }
 		             else if((this.equals(destination.top)
 		            		 && destination.bottom.tiger==false
@@ -119,6 +123,7 @@ public class Coin extends Game{
 		            	
 		            	 no_goat--;										//static int for number of goat	   
 		            	 goat_killed++;
+		            	 moveSuccess=true;
 		             }
 		             else if((this.equals(destination.bottom)
 		            		 && destination.top.tiger==false
@@ -133,6 +138,7 @@ public class Coin extends Game{
 		            	
 		            	 no_goat--;										//staic int for number of goat
 		            	 goat_killed++;
+		            	 moveSuccess=true;
 		             }
 		             else if((this.equals(destination.left)
 		            		 && destination.right.tiger==false
@@ -145,14 +151,16 @@ public class Coin extends Game{
 		            
 		            	 no_goat--;
 		            	 goat_killed++;
+		            	 moveSuccess=true;
 		             }
 		             else {
 		            	 System.out.println("Eat condition Not satisfied");
+		            	 moveSuccess=false;
 		             }
 	  }
 
   
-
+	  				return moveSuccess;
   }
   
 

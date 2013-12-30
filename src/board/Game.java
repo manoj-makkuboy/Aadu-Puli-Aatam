@@ -67,7 +67,7 @@ void move_goat_gui(Coin goat_c[]){
 		
 		
 	goat_coordinate[i][0] = goat_c[i].X;
-	goat_coordinate[i][1] = goat_c[i].Y;//	this.repaint();
+	goat_coordinate[i][1] = goat_c[i].Y;
 	
 	
 		

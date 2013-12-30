@@ -74,9 +74,7 @@ public class Board {
 	  p[3].add_tiger();
 	  p[4].add_tiger();
 	  
-	  for(int i=5;i<19;i++){
-		  p[i].add_goat();
-	  }
+	  
 
     
     
@@ -108,7 +106,7 @@ public class Board {
 	}  				// End of getInput_and_findPoint()
 	  
 	int gravity(int x, int y){
-		int gravityRange = 100;
+		int gravityRange = 50;
 		
 		
 		for(int i=0;i<23;i++){
@@ -134,8 +132,12 @@ public class Board {
 	    
 		    try{
 		    	System.out.println("Valid move for tiger");
-		    	p[i].move_coin(p[j]);    									
-		    	tigers_move=false;
+		    		if(p[i].move_coin(p[j])==true) {
+		    			
+		    			tigers_move=false;
+		    		}
+		    		else
+		    			return;
 		    }
 		    catch(NullPointerException e){ 									// activated when move out of range
 		    	System.out.println("Move Out of Range : Invalid move");
