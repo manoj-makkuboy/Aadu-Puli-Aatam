@@ -4,6 +4,9 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,16 +15,18 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.event.MouseInputListener;
 
 
 
 @SuppressWarnings("serial")
-public class Game extends Component {
+public class Game extends JPanel implements MouseListener {
    static  int  X_1=380,Y_1=20,X_2=325,Y_2=225,X_3=440,Y_3=225;
 
-    
+    static int input_x1,input_y1,input_x2,input_y2;
 
-    
+ static  Game game = new Game();
+ static	Board OB = new Board();
     static int goat_coordinate[][]=new int [15][2];
    
     static int no_of_goat;
@@ -101,6 +106,7 @@ void move_goat_gui(Coin goat_c[]){
 		
 		
 		
+		
 		for(int l=0;l<Coin.no_goat;l++){
 			
 			g2d.drawImage(goat,goat_coordinate[l][0],goat_coordinate[l][1],null);
@@ -116,8 +122,7 @@ void move_goat_gui(Coin goat_c[]){
 	public static void main(String[] args) throws InterruptedException {
 		JFrame frame = new JFrame("Aadu Puli Aatam");
 		
-		Game game = new Game();
-		Board OB = new Board();
+		
 		
 		frame.add(game);
 		frame.setSize(800,700);
@@ -125,18 +130,30 @@ void move_goat_gui(Coin goat_c[]){
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		
-	    
 		
 		OB.Coin_config();
 		OB.display();
 		game.repaint();
 		
+
+
+	MouseListener ml = new MouseAdapter() {
+			
+				public void mousePressed(MouseEvent evt1){
+							game.testmousePressed(evt1);
+							}
+			  public void mouseReleased(MouseEvent evt2) {
+			        game.testmouseReleased(evt2);
+			    }
+			    public void mouseClicked(MouseEvent evt3){
+			    	game.testmouseClicked(evt3);
+			    }
+			};
 		
-		while (true) {
 			
-			
-			OB.getInput_and_findPoint();
-			game.repaint();
+			while(true){
+				frame.addMouseListener(ml);
+				Thread.sleep(100);
 			
 			if(Board.goatWinning == true){
 				System.out.println("The winner is Goat");
@@ -147,15 +164,98 @@ void move_goat_gui(Coin goat_c[]){
 				break;
 			}
 			
+			frame.removeMouseListener(ml);
+			frame.repaint();
+		}
+				
+}
 			
 			
 
+	
+
+/*	void start_game(){
+		
+		while (true) {
 			
 			
+				OB.getInput_and_findPoint(input_x1, input_y1, input_x2, input_y2);
+				game.repaint();
 			
-			
+			if(Board.goatWinning == true){
+				System.out.println("The winner is Goat");
+				break;
+			}
+			else if(Board.tigerWinning == true){
+				System.out.println("The Winner is Tiger");
+				break;
+			}
 		}
+	} */
+	
+	
+	public void testmouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+	
 	}
+
+	
+	public void testmouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	public void testmousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		input_x1=arg0.getX();
+		input_y1 =arg0.getY();
+		System.out.println(input_x1+","+input_y1);
+		
+	}
+
+	
+	public void testmouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		input_x2 = arg0.getX();
+		input_y2 = arg0.getY();
+		
+		System.out.println(input_x2+","+input_y2);
+		OB.getInput_and_findPoint(input_x1, input_y1, input_x2, input_y2);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 	
 }

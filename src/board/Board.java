@@ -85,25 +85,10 @@ public class Board {
 	
 	
 	
-	void getInput_and_findPoint(){
+	void getInput_and_findPoint(int input_from_x,int input_from_y,int input_to_x, int input_to_y ){
 		
-		int input_from_x,input_from_y,input_to_x,input_to_y , i , j;
-			
-			
-	    System.out.println("Enter the FROM points :");
-	    @SuppressWarnings("resource")
-		Scanner IN = new Scanner(System.in);
-	    
-	    System.out.println("FROM x = ");
-	    input_from_x=IN.nextInt();
-	    System.out.println("FROM y = ");
-	    input_from_y=IN.nextInt();
-	    
-	    System.out.println("Enter the TO points");
-	    System.out.println("TO x = ");
-	    input_to_x=IN.nextInt();
-	    System.out.println("TO y = ");
-	    input_to_y=IN.nextInt();
+		int i , j;
+		
 	    
 	   i = gravity(input_from_x, input_from_y);
 	   j = gravity(input_to_x, input_to_y);
@@ -123,11 +108,11 @@ public class Board {
 	}  				// End of getInput_and_findPoint()
 	  
 	int gravity(int x, int y){
-		
+		int gravityRange = 100;
 		
 		
 		for(int i=0;i<23;i++){
-			if((((p[i].X)-50) < x) && (x < (((p[i].X)+50))) && ((((p[i].Y)-50)) < y) && (y < ((((p[i].Y)+50))))){
+			if((((p[i].X)-gravityRange) < x) && (x < (((p[i].X)+gravityRange))) && ((((p[i].Y)-gravityRange)) < y) && (y < ((((p[i].Y)+gravityRange))))){
 				return i;
 			}
 		}
