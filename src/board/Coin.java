@@ -2,35 +2,26 @@ package board;
 
 @SuppressWarnings("serial")
 public class Coin extends Game{
+	
 	static int no_goat,goat_killed;
-	
-
-	
-	
-	
-	
-	
-	
 	public int X,Y;
 	String point_name; 
 	boolean tiger=false,goat=false,vacant=true;
     Coin left,right,top,bottom;
+    
 	Coin(int x,int y,String name){// Constructor
 		X = x;
 		Y = y;
 		point_name = name;
 		
 		}
-  public void direction(Coin L,Coin R,Coin T,Coin B){
-	  	
-	  		
+	public void direction(Coin L,Coin R,Coin T,Coin B){
 	  			
 	  		left = L;
 	  		right = R;
 		    top = T;
 		    bottom = B;
-		    
-	  		
+			
 	}
   
  

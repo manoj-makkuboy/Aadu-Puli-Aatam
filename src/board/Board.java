@@ -1,14 +1,11 @@
 package board;
 
-import java.util.Scanner;
-
-
 public class Board {
 	
-	 private static final Object NULL = null;
+	
 	public Coin p[]=new Coin[24];
 	 static boolean tigers_move = false;  //to find whether it is tiger's move or goat's move
-	 boolean goatInsertionEnded = false;
+	 static boolean goatInsertionEnded = false;
 	 static boolean goatWinning = false;
 	 static boolean tigerWinning = false;
 
@@ -74,10 +71,10 @@ public class Board {
 	  p[3].add_tiger();
 	  p[4].add_tiger();
 	  
-	  
-
-    
-    
+	  for(int i = 5;i<17;i++){
+		  p[i].add_goat();
+	  }
+	
 	} 
 	
 	
@@ -110,14 +107,14 @@ public class Board {
 		
 		
 		for(int i=0;i<23;i++){
-			if((((p[i].X)-gravityRange) < x) && (x < (((p[i].X)+gravityRange))) && ((((p[i].Y)-gravityRange)) < y) && (y < ((((p[i].Y)+gravityRange))))){
+			if((((p[i].X)-10) < x) && (x < (((p[i].X)+90))) && ((((p[i].Y)-10)) < y) 
+					&& (y < ((((p[i].Y)+90))))){
 				return i;
 			}
 		}
 			
 				System.out.println("The inputed co-ordinates are invalid");
 				return 777;		// default error value stating invalid position
-			
 	
 	}
 	
@@ -150,7 +147,7 @@ public class Board {
 	    else if(tigers_move == false){						//checking "is it goat's turn"
 	    	
 	    	
-	    	if(Coin.no_goat<=15 && goatInsertionEnded == false && i==j){		
+	    	if(Coin.no_goat<=15 && goatInsertionEnded == false && i==j && p[i].vacant == true){		
 	    	
 	    		
 	    		p[i].add_goat();
@@ -166,8 +163,12 @@ public class Board {
 	    	else if(goatInsertionEnded == true){
 	    		try{
 			    	System.out.println("Valid move for goat");
-			    	p[i].move_coin(p[j]);    								//moves goat
-			    	tigers_move=true;
+			    	
+			    	if(p[i].move_coin(p[j])==true){
+			    		tigers_move=true;																//moves goat
+			    	}
+			    	else
+			    		return;
 			    }
 			    catch(NullPointerException e){ 								// activated when move out of range
 			    	System.out.println("Move Out of Range : Invalid move");
@@ -344,10 +345,7 @@ public class Board {
 		  	 }
 		   }
 	
-		   
-		   
-		   
-		   
+	   
 	 T_Game.move_goat_gui(Goat);  // updates the gui function of goat
 
 	 

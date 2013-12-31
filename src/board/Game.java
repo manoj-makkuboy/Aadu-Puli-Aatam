@@ -50,14 +50,6 @@ public class Game extends JPanel implements MouseListener {
 		Y_3=a_Game[2][1];
 		
 		
-		
-		
-		
-		//here 'X' and 'Y' are co-ordinates in which image has to  be draw
-		
-	
-		
-		
 	}
 	  
 void move_goat_gui(Coin goat_c[]){
@@ -65,31 +57,26 @@ void move_goat_gui(Coin goat_c[]){
 	
 	for(int i =0;i<Coin.no_goat;i++){
 		
-		
 	goat_coordinate[i][0] = goat_c[i].X;
 	goat_coordinate[i][1] = goat_c[i].Y;
-	
-	
-		
 		
 	}
-	
-	 
 	
 }
 	
 	
 
-	public Game() {
+public Game() {
 	       try {
 	           img = ImageIO.read(new File("Project Pictures/Adu-puli-kattam.png"));
 	           tiger_1 = ImageIO.read(new File("Project Pictures/tiger.jpg"));
 	           goat =  ImageIO.read(new File("Project Pictures/animals-gnu.png"));
-	       } catch (IOException e){
+	       } 
+	       catch (IOException e){
 	    	System.out.println("Image not loaded");   
 	       }
 	       
-	       }
+}
 
 	@Override
 	public void paint(Graphics g) {
@@ -103,9 +90,6 @@ void move_goat_gui(Coin goat_c[]){
 		g2d.drawImage(tiger_1,X_1,Y_1,null);
 		g2d.drawImage(tiger_1,X_2,Y_2,null);
 		g2d.drawImage(tiger_1,X_3,Y_3,null);
-		
-		
-		
 		
 		for(int l=0;l<Coin.no_goat;l++){
 			
@@ -155,43 +139,22 @@ void move_goat_gui(Coin goat_c[]){
 				frame.addMouseListener(ml);
 				Thread.sleep(100);
 			
-			if(Board.goatWinning == true){
-				System.out.println("The winner is Goat");
+				if(Board.goatWinning == true){
+					System.out.println("The winner is Goat");
 				break;
-			}
-			else if(Board.tigerWinning == true){
-				System.out.println("The Winner is Tiger");
+				}
+				else if(Board.tigerWinning == true){
+					System.out.println("The Winner is Tiger");
 				break;
-			}
-			
-			frame.removeMouseListener(ml);
-			frame.repaint();
+				}
+				
+				frame.removeMouseListener(ml);
+				frame.repaint();
 		}
 				
 }
 			
-			
 
-	
-
-/*	void start_game(){
-		
-		while (true) {
-			
-			
-				OB.getInput_and_findPoint(input_x1, input_y1, input_x2, input_y2);
-				game.repaint();
-			
-			if(Board.goatWinning == true){
-				System.out.println("The winner is Goat");
-				break;
-			}
-			else if(Board.tigerWinning == true){
-				System.out.println("The Winner is Tiger");
-				break;
-			}
-		}
-	} */
 	
 	
 	public void testmouseClicked(MouseEvent arg0) {
