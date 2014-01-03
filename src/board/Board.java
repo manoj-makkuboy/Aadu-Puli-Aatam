@@ -3,11 +3,13 @@ package board;
 public class Board {
 	
 	
+	private static final Object NULL = null;
 	public Coin p[]=new Coin[24];
 	 static boolean tigers_move = false;  //to find whether it is tiger's move or goat's move
 	 static boolean goatInsertionEnded = false;
 	 static boolean goatWinning = false;
 	 static boolean tigerWinning = false;
+	 static int total_no_goat = 0;
 
 	public void Coin_config(){
 		// TODO Auto-generated method stub
@@ -55,7 +57,7 @@ public class Board {
     p[11].direction(p[10],p[12],p[5],p[17]);
     p[12].direction(p[11], null, p[6], p[18]);
     p[13].direction(null, p[14], p[7], null);
-    p[14].direction(p[13], p[15], p[8], p[21]);
+    p[14].direction(p[13], p[15], p[8], p[19]);
     p[15].direction(p[14], p[16], p[9], p[20]);
     p[16].direction(p[15], p[17], p[10], p[21]);
     p[17].direction(p[16], p[18], p[11], p[22]);
@@ -71,9 +73,7 @@ public class Board {
 	  p[3].add_tiger();
 	  p[4].add_tiger();
 	  
-	  for(int i = 5;i<17;i++){
-		  p[i].add_goat();
-	  }
+	 
 	
 	} 
 	
@@ -103,7 +103,7 @@ public class Board {
 	}  				// End of getInput_and_findPoint()
 	  
 	int gravity(int x, int y){
-		int gravityRange = 50;
+		
 		
 		
 		for(int i=0;i<23;i++){
@@ -130,7 +130,6 @@ public class Board {
 		    try{
 		    	System.out.println("Valid move for tiger");
 		    		if(p[i].move_coin(p[j])==true) {
-		    			
 		    			tigers_move=false;
 		    		}
 		    		else
@@ -147,13 +146,13 @@ public class Board {
 	    else if(tigers_move == false){						//checking "is it goat's turn"
 	    	
 	    	
-	    	if(Coin.no_goat<=15 && goatInsertionEnded == false && i==j && p[i].vacant == true){		
+	    	if(Board.total_no_goat<15 && goatInsertionEnded == false && i==j && p[i].vacant == true){		
 	    	
 	    		
 	    		p[i].add_goat();
 	    		tigers_move = true;
 	    		
-	    		if(Coin.no_goat == 15){
+	    		if(Board.total_no_goat == 15){
 	    			goatInsertionEnded = true;
 	    			
 	    		}
@@ -213,77 +212,121 @@ public class Board {
 		else 
 			return false;
 		
-		
-		
-			
-			
-			
-			
 		}
 		
 		
 	
 	boolean isGoatWinner(Coin tiger_status){   // function overloading
 		
-		boolean toReturn = false;
-		int i;
-		for(i = 0;i<23;i++){
-			if((tiger_status.point_name).equals(p[i].point_name))
-				break;
+		boolean rightNotClear=false,leftNotClear=false,topNotClear = false,bottomNotClear = false;
+		
+		
+		if(isOneRightStepVacant(tiger_status) == false ){
+			if(tiger_status.right != null){
+				if(isOneRightStepVacant(tiger_status.right) == false)
+					rightNotClear = true;
+			}
+			else 
+				rightNotClear = true;
 		}
 		
+		if(isOneLeftStepVacant(tiger_status) == false )
+			if(tiger_status.left != null){
+				if(isOneLeftStepVacant(tiger_status.left) == false)
+					leftNotClear = true;
+			}
+			else
+				leftNotClear = true;
 		
-		switch(i){
+		if(isOnetopStepVacant(tiger_status) == false )
+			if(tiger_status.top != null){
+				if(isOnetopStepVacant(tiger_status.top) == false)
+					topNotClear = true;
+			}
+			else 
+				topNotClear = true;
 		
-		case 1:	if(tiger_status.right.vacant == false && tiger_status.bottom.vacant == false)
-					toReturn = true;
-				break;
-				
-				
-		case 6:	if(tiger_status.left.vacant == false && tiger_status.bottom.vacant == false)
-						toReturn = true;
-				break;
+		if(isOnebottomStepVacant(tiger_status) == false )
+			if(tiger_status.bottom != null){
+				if(isOnebottomStepVacant(tiger_status.bottom) == false)
+					bottomNotClear = true;
+			}
+			else 
+				bottomNotClear = true;
 		
-		case 7: if(tiger_status.right.vacant == false && tiger_status.bottom.vacant == false && tiger_status.top.vacant == false)
-					toReturn = true;
-				break;
-		case 12: if(tiger_status.bottom.vacant == false && tiger_status.top.vacant == false && tiger_status.left.vacant == false)
-					toReturn = true;
-				break;
-		case 13: if(tiger_status.top.vacant == false && tiger_status.right.vacant == false)
-					toReturn = true;
-				break;		
-		case 18: 	if(tiger_status.top.vacant == false && tiger_status.left.vacant == false)
-					toReturn = true;
-				break;			
-		case 19:	if(tiger_status.top.vacant == false && tiger_status.right.vacant == false)
-					toReturn = true;
-				break;	
+		if(rightNotClear && leftNotClear && topNotClear && bottomNotClear)
+			return true;
 		
-		case 20:	if(tiger_status.top.vacant == false && tiger_status.left.vacant == false
-						&&  tiger_status.right.vacant == false)
-					toReturn = true;
-				break;
-		
-		case 21:	if(tiger_status.top.vacant == false && tiger_status.left.vacant == false
-						&&  tiger_status.right.vacant == false)
-					toReturn = true;
-				break;
-		
-		case 22:  	if(tiger_status.top.vacant == false && tiger_status.left.vacant == false)
-					toReturn = true;
-				break;
-		default: 	if(tiger_status.top.vacant == false && tiger_status.left.vacant == false
-						&& tiger_status.bottom.vacant == false && tiger_status.right.vacant == false)
-							toReturn = true;
-					
-		
+		else 
+			return false;
 		
 				
-		}
-		return toReturn;         
+		  
+		
+		
+		       
 	
 	}
+	
+	boolean isOneLeftStepVacant(Coin toBeChecked){		
+		
+		
+		if(null == toBeChecked.left ){
+			return false;
+		}
+		
+		else if(toBeChecked.left.vacant == true)
+			return true;
+		
+		else 
+			return false;
+		
+	}
+	
+	
+	boolean isOneRightStepVacant(Coin toBeChecked){			
+		
+		if(null == toBeChecked.right ){
+			return false;
+		}
+		
+		else if(toBeChecked.right.vacant == true)
+			return true;
+		else 
+			return false;
+	}
+	
+boolean isOnetopStepVacant(Coin toBeChecked){
+		
+	if(null == toBeChecked.top ){
+		return false;
+	}
+	
+	else if(toBeChecked.top.vacant == true)
+		return true;
+	
+	else 
+		return false;
+	}
+	
+boolean isOnebottomStepVacant(Coin toBeChecked){
+	
+	if(null == toBeChecked.bottom ){
+		return false;
+	}
+	
+	else if(toBeChecked.bottom.vacant == true)
+		return true;
+	
+	else 
+		return false;
+}
+
+
+	
+	
+	
+
 	
 	
 	
@@ -351,6 +394,7 @@ public class Board {
 	 
 
     System.out.println("No. of goat = "+Coin.no_goat);
+    System.out.println("goat killed = "+Coin.goat_killed);
     
 	 if(isGoatWinner(Tiger)==true)
 		 goatWinning = true;

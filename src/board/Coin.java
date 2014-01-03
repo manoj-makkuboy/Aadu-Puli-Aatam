@@ -3,7 +3,7 @@ package board;
 @SuppressWarnings("serial")
 public class Coin extends Game{
 	
-	static int no_goat,goat_killed;
+	static int no_goat,goat_killed = 0;
 	public int X,Y;
 	String point_name; 
 	boolean tiger=false,goat=false,vacant=true;
@@ -34,6 +34,7 @@ public class Coin extends Game{
 	  this.goat = true; 
 	  this.vacant = false;
 	  no_goat++;
+	  Board.total_no_goat++;
   	}
   
   
