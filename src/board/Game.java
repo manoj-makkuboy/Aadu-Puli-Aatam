@@ -32,7 +32,7 @@ public class Game extends JPanel implements MouseListener {
     static int no_of_goat;
 	 
 	
-	BufferedImage img,tiger_1,goat;
+	BufferedImage img,tiger_1,goat,background;
 	
 	
 
@@ -68,9 +68,12 @@ void move_goat_gui(Coin goat_c[]){
 
 public Game() {
 	       try {
+	    	   background = ImageIO.read(new File("Project Pictures/background.jpg"));
 	           img = ImageIO.read(new File("Project Pictures/Adu-puli-kattam.png"));
-	           tiger_1 = ImageIO.read(new File("Project Pictures/tiger.jpg"));
+	          
+	           tiger_1 = ImageIO.read(new File("Project Pictures/Tiger-gnu.png"));
 	           goat =  ImageIO.read(new File("Project Pictures/animals-gnu.png"));
+	         
 	       } 
 	       catch (IOException e){
 	    	System.out.println("Image not loaded");   
@@ -86,6 +89,7 @@ public Game() {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		
+		g2d.drawImage(background,0,0,null);
 		g2d.drawImage(img,0,20,null);
 		g2d.drawImage(tiger_1,X_1,Y_1,null);
 		g2d.drawImage(tiger_1,X_2,Y_2,null);
@@ -136,20 +140,24 @@ public Game() {
 		
 			
 			while(true){
-				frame.addMouseListener(ml);
-				Thread.sleep(100);
+				
+				frame.addMouseListener(ml); 
+				Thread.sleep(100);			// suspends the main thread for 100 ms
+				frame.repaint();			// call paint()
 			
-				if(Board.goatWinning == true){
+				if(Board.goatWinning == true){	
 					System.out.println("The winner is Goat");
-				break;
+					frame.removeMouseListener(ml);
+				break;		
 				}
 				else if(Board.tigerWinning == true){
 					System.out.println("The Winner is Tiger");
+					frame.removeMouseListener(ml);
 				break;
 				}
 				
-				frame.removeMouseListener(ml);
-				frame.repaint();
+				frame.removeMouseListener(ml); // avoid the re adding error of MouseListener
+				
 		}
 				
 }

@@ -216,9 +216,17 @@ public class Board {
 		
 		
 	
-	boolean isGoatWinner(Coin tiger_status){   // function overloading
+	boolean isGoatWinner(Coin tiger_status){   // function overloading this checked the blocked tiger "tiger_staus"
 		
 		boolean rightNotClear=false,leftNotClear=false,topNotClear = false,bottomNotClear = false;
+		
+		if(tiger_status.equals(p[0])){		// special case for p[0]
+			if(p[2].vacant == false && p[3].vacant == false && p[4].vacant== false  && p[5].vacant == false &&
+					p[8].vacant == false && p[9].vacant == false && p[10].vacant == false && p[11].vacant== false )
+				return true;		
+			else
+				return false;
+		}
 		
 		
 		if(isOneRightStepVacant(tiger_status) == false ){
@@ -330,7 +338,7 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 	
 	
 	
-	boolean isTigerWinner(Coin goat_status[]){
+	boolean isTigerWinner(){
 		
 		if(Coin.goat_killed == 5)	
 			return true;
@@ -398,7 +406,7 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
     
 	 if(isGoatWinner(Tiger)==true)
 		 goatWinning = true;
-	 if(isTigerWinner(Goat)==true)
+	 if(isTigerWinner()==true)
 		 tigerWinning = true;
 		
 	 
