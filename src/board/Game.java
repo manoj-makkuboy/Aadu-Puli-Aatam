@@ -20,16 +20,19 @@ import javax.swing.event.MouseInputListener;
 
 
 @SuppressWarnings("serial")
-public class Game extends JPanel implements MouseListener {
+public class Game extends JPanel implements MouseListener, Runnable {
    static  int  X_1=380,Y_1=20,X_2=325,Y_2=225,X_3=440,Y_3=225;
 
     static int input_x1,input_y1,input_x2,input_y2;
 
- static  Game game = new Game();
- static	Board OB = new Board();
+    static  Game game = new Game();
+    static	Board REAL = new Board(0);
     static int goat_coordinate[][]=new int [15][2];
+    
+    
+
    
-    static int no_of_goat;
+   
 	 
 	
 	BufferedImage img,tiger_1,goat,background;
@@ -38,8 +41,6 @@ public class Game extends JPanel implements MouseListener {
 
 	  protected void move_tiger_gui(int a_Game[][]) { // 'x' and 'y' are destination point co-ordinates
 	    
-	
-		
 		X_1=a_Game[0][0];
 		Y_1=a_Game[0][1];
 		
@@ -49,21 +50,21 @@ public class Game extends JPanel implements MouseListener {
 		X_3=a_Game[2][0];
 		Y_3=a_Game[2][1];
 		
-		
 	}
-	  
+
+	
 void move_goat_gui(Coin goat_c[]){
 	
 	
-	for(int i =0;i<Coin.no_goat;i++){
+	for(int i =0;i<REAL.totalNoOfGoat;i++){
 		
-	goat_coordinate[i][0] = goat_c[i].X;
-	goat_coordinate[i][1] = goat_c[i].Y;
+		goat_coordinate[i][0] = goat_c[i].X;
+		goat_coordinate[i][1] = goat_c[i].Y;
 		
 	}
 	
 }
-	
+
 	
 
 public Game() {
@@ -95,19 +96,16 @@ public Game() {
 		g2d.drawImage(tiger_1,X_2,Y_2,null);
 		g2d.drawImage(tiger_1,X_3,Y_3,null);
 		
-		for(int l=0;l<Coin.no_goat;l++){
+		for(int l=0;l<REAL.totalNoOfGoat;l++){
 			
 			g2d.drawImage(goat,goat_coordinate[l][0],goat_coordinate[l][1],null);
 		}
 	
-		
 	}
-	
-	
-	
-	
 
-	public static void main(String[] args) throws InterruptedException {
+
+	public static void humanVsHuman() {    // Called by run() from the bottom of this class
+		
 		JFrame frame = new JFrame("Aadu Puli Aatam");
 		
 		
@@ -117,10 +115,8 @@ public Game() {
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
-		
-		
-		OB.Coin_config();
-		OB.display();
+	
+		REAL.display();
 		game.repaint();
 		
 
@@ -128,8 +124,8 @@ public Game() {
 	MouseListener ml = new MouseAdapter() {
 			
 				public void mousePressed(MouseEvent evt1){
-							game.testmousePressed(evt1);
-							}
+					game.testmousePressed(evt1);
+				}
 			  public void mouseReleased(MouseEvent evt2) {
 			        game.testmouseReleased(evt2);
 			    }
@@ -142,15 +138,20 @@ public Game() {
 			while(true){
 				
 				frame.addMouseListener(ml); 
-				Thread.sleep(100);			// suspends the main thread for 100 ms
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}			// suspends the main thread for 100 ms
 				frame.repaint();			// call paint()
 			
-				if(Board.goatWinning == true){	
+				if(REAL.goatWon == true){	
 					System.out.println("The winner is Goat");
 					frame.removeMouseListener(ml);
 				break;		
 				}
-				else if(Board.tigerWinning == true){
+				else if(REAL.tigerWon == true){
 					System.out.println("The Winner is Tiger");
 					frame.removeMouseListener(ml);
 				break;
@@ -159,7 +160,7 @@ public Game() {
 				frame.removeMouseListener(ml); // avoid the re adding error of MouseListener
 				
 		}
-				
+		
 }
 			
 
@@ -198,7 +199,7 @@ public Game() {
 		input_y2 = arg0.getY();
 		
 		System.out.println(input_x2+","+input_y2);
-		OB.getInput_and_findPoint(input_x1, input_y1, input_x2, input_y2);
+		game.getInput_and_findPoint(input_x1, input_y1, input_x2, input_y2);
 	}
 
 	@Override
@@ -224,6 +225,51 @@ public Game() {
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void run() {					// Main method of this thread
+		// TODO Auto-generated method stub
+		humanVsHuman();
+		
+	}
+	
+void getInput_and_findPoint(int input_from_x,int input_from_y,int input_to_x, int input_to_y ){
+		
+		int i , j;
+		
+	    
+	   i = gravity(input_from_x, input_from_y);
+	   j = gravity(input_to_x, input_to_y);
+	   
+	   System.out.println("i="+i);
+	   System.out.println("j="+j);
+	   
+	   if(i != 777 && j != 777){
+		   REAL.takeDecision(i,j);
+	   }
+	   else{
+		   System.out.println("Invalid input points");
+		   return;
+	   }
+	    
+	    
+	}  				// End of getInput_and_findPoint()
+	  
+	int gravity(int x, int y){
+		
+		
+		
+		for(int i=0;i<23;i++){
+			if((((REAL.p[i].X)-10) < x) && (x < (((REAL.p[i].X)+90))) && ((((REAL.p[i].Y)-10)) < y) 
+					&& (y < ((((REAL.p[i].Y)+90))))){
+				return i;
+			}
+		}
+			
+				System.out.println("The inputed co-ordinates are invalid");
+				return 777;		// default error value stating invalid position
+	
 	}
 
 
