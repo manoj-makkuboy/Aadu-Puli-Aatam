@@ -9,6 +9,22 @@ public class Coin {
 	public boolean goat=false;
 	public boolean vacant=true;
 	public Coin left,right,top,bottom;
+	
+	
+	Coin(Coin toBeCloned){
+		
+		this.X =toBeCloned.X;
+		this.Y = toBeCloned.Y;
+		this.point_name = toBeCloned.point_name; 
+		this.tiger = toBeCloned.tiger;
+		this.goat= toBeCloned.goat;
+		this.vacant = toBeCloned.vacant;
+		
+		
+		
+		
+		
+	}
     
 	Coin(int x,int y,String name){// Constructor
 		

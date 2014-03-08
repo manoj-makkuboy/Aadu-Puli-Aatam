@@ -13,8 +13,40 @@ import board.Board;
 	
 public class MiniMax {
 	
+	int maxDepth = 3;
+
+	int finalMoveToBePerformed[] = new int[12];
 	
-	int maxDepth = 7;
+	
+	public void startMiniMax(Board b, boolean isThisTurnTiger_s){
+		
+	
+		int generatedTigerMoveForFinal[][] = generateTigerMove(b);
+	
+		
+		int testValue = 0;
+		
+		if(isThisTurnTiger_s == false)
+			testValue = tigerValue(b,0); // depth =0 when first calling
+		
+		
+		
+		for(int i=0; i<12; i++){
+			
+			if(finalMoveToBePerformed[i] == testValue){
+				System.out.println("the best move for Tiger is :"+generatedTigerMoveForFinal[i][0]+"-"+generatedTigerMoveForFinal[i][1]);
+				break;
+			}
+			
+		}
+		
+		System.out.println("This is Test VALUE :"+testValue);
+		
+	
+		
+		System.out.println("the current board value :"+analysis(b));
+		
+	}
 	
 	int tigerValue(Board b, int depth){
 		
@@ -26,13 +58,19 @@ public class MiniMax {
 		
 		for(int i=0; i<generatedTigerMoves.length; i++){
 			
-			Board c = (Board) UnoptimizedDeepCopy.copy(b);
+			Board c = new Board(b);
 			c.move_coin(c.p[generatedTigerMoves[i][0]], c.p[generatedTigerMoves[i][1]]);
 			
-			int x = goatValue((Board) UnoptimizedDeepCopy.copy(c),depth+1);
+			
+			Board c2 = new Board(c);
+			int x = goatValue((c2),depth+1);
 			
 			if(x > max)
 				max = x;
+			
+			if(depth == 0){			// for selecting the move for performing in the real board
+				finalMoveToBePerformed[i] = x ;
+			}
 			
 		}
 		return max;
@@ -56,10 +94,13 @@ public class MiniMax {
 		
 		for(int i=0; i<generatedGoatMoves.length; i++){
 			
-			Board c = (Board) UnoptimizedDeepCopy.copy(b);
+			Board c = new Board(b);
 			c.move_coin(c.p[generatedGoatMoves[i][0]], c.p[generatedGoatMoves[i][1]]);
 			
-			int x = goatValue((Board) UnoptimizedDeepCopy.copy(c),depth+1);
+			Board c2 = new Board(c);
+			int x = tigerValue(c2,depth+1);
+			
+			
 			
 			if(x < min)
 				min = x;
@@ -81,13 +122,13 @@ public class MiniMax {
 	private int analysis(Board b) {
 		// TODO Auto-generated method stub
 			int goatLossPoints = 3*(b.goatKilled);
-			
 			int tigerPosition[] = getTigers(b);
+			
 			int tigerLossPoints = 0;
 			
 			for(int i=0; i<3 ; i++){
 				
-				if(b.isGoatWinner(b.p[i]) == false)
+				if(b.isGoatWinner(b.p[tigerPosition[i]]) == true)
 					tigerLossPoints = tigerLossPoints + 5;
 				
 			}
@@ -118,9 +159,11 @@ public class MiniMax {
 	
 	int[][] trimArray(int[][] toBeTrimed,int trimLength){	//trims the unused part of the array
 		
+	
+		
 		int[][] trimedArray = new int[trimLength][2];//Array to be returned
 		
-		for(int i=0; i<= trimLength; i++){
+		for(int i=0; i< trimLength; i++){
 			trimedArray[i][0] = toBeTrimed[i][0];
 			trimedArray[i][1] = toBeTrimed[i][1];
 		}
@@ -137,10 +180,7 @@ public class MiniMax {
 		
 		int[][] generatedGoatMoves = new int[60][2];
 		
-		for(int i=0 ; i<60 ; i++){
-			generatedGoatMoves[i][0] = 0;
-			generatedGoatMoves[i][1] = 0;
-		}
+		
 		
 		
 		tigerPositions = getTigers(b);
@@ -148,7 +188,7 @@ public class MiniMax {
 		if(b.noOfGoatsInserted < 15){
 			
 			for(int i=0,j=0; i<=22; i++){
-				if( i != tigerPositions[0] || i != tigerPositions[1] || i!= tigerPositions[2] ){
+				if( i != tigerPositions[0] && i != tigerPositions[1] && i!= tigerPositions[2] ){
 					
 					generatedGoatMoves[j][0]= i;		// when origin and destination are same the 
 														// fn() to be called will insert a goat into the board
@@ -162,7 +202,7 @@ public class MiniMax {
 			
 			
 			
-		return trimArray(generatedGoatMoves,trimLength);										
+		return trimArray(generatedGoatMoves,trimLength+1); //take care										
 			
 		}
 		
@@ -211,10 +251,10 @@ public class MiniMax {
 				
 				if(b.p[goatPositions[i]].bottom!= null){
 					if(isThisMoveValidForGoat(Integer.parseInt(b.p[goatPositions[i]].point_name)
-												,Integer.parseInt(b.p[goatPositions[i]].right.point_name),b)){
+												,Integer.parseInt(b.p[goatPositions[i]].bottom.point_name),b)){
 						
 						generatedGoatMoves[j][0] = Integer.parseInt(b.p[goatPositions[i]].point_name);
-						generatedGoatMoves[j][1] = Integer.parseInt(b.p[goatPositions[i]].right.point_name);
+						generatedGoatMoves[j][1] = Integer.parseInt(b.p[goatPositions[i]].bottom.point_name);
 						
 						j++;  
 					}	// End of bottom check
@@ -223,7 +263,7 @@ public class MiniMax {
 				
 				
 				
-			trimLength = j-1;	
+			trimLength = j;	
 				
 				
 			}
@@ -240,7 +280,7 @@ public class MiniMax {
 	}
 	 
 	 
-	int[][] generateTigerMove(Board b){
+	int[][] generateTigerMove(Board b){   // fn() tested
 		
 		int[] tigerPositions = new int[3];
 		int trimLength = 0;
@@ -288,10 +328,10 @@ public class MiniMax {
 			
 			if(b.p[tigerPositions[i]].bottom!= null){
 				if(isThisMoveValidForTiger(Integer.parseInt(b.p[tigerPositions[i]].point_name)
-											,Integer.parseInt(b.p[tigerPositions[i]].right.point_name),b)){
+											,Integer.parseInt(b.p[tigerPositions[i]].bottom.point_name),b)){
 					
 					generatedTigerMoves[j][0] = Integer.parseInt(b.p[tigerPositions[i]].point_name);
-					generatedTigerMoves[j][1] = Integer.parseInt(b.p[tigerPositions[i]].right.point_name);
+					generatedTigerMoves[j][1] = Integer.parseInt(b.p[tigerPositions[i]].bottom.point_name);
 					
 					j++;
 					  
@@ -300,7 +340,7 @@ public class MiniMax {
 			}
 			
 			
-			trimLength = j-1;	
+			trimLength = j;	
 			
 			
 			
@@ -329,7 +369,8 @@ public class MiniMax {
 		  boolean p0 = false;
 		  boolean moveStatus = false;
 		  
-		
+		if(b.p[destination] == null)		// avoids going into null pointer exception
+			return false;
 		  
 
 			
@@ -361,6 +402,7 @@ public class MiniMax {
 			  
 			  	
 			  				if((b.p[origin].equals(b.p[destination].right) 		
+			            		 && b.p[destination].left != null
 			            		 && b.p[destination].left.tiger==false
 			            		 && b.p[destination].left.goat==false  )){
 			            	 
@@ -368,19 +410,22 @@ public class MiniMax {
 			            	 moveStatus=true;
 			             }
 			             else if((b.p[origin].equals(b.p[destination].top)
+			            		 && b.p[destination].bottom != null
 			            		 && b.p[destination].bottom.tiger==false
 			            		 && b.p[destination].bottom.goat==false)){
 			            	
 			            	 moveStatus=true;
 			             }
 			             else if((b.p[origin].equals(b.p[destination].bottom)
+			            		 && b.p[destination].top != null
 			            		 && b.p[destination].top.tiger==false
 			            		 && b.p[destination].top.goat == false)){
 			            	 
 			            	 moveStatus=true;
 			             }
 			             else if((b.p[origin].equals(b.p[destination].left)
-			              		 && b.p[destination].right.tiger==false
+			              		 && b.p[destination].right != null
+			              		 &&b.p[destination].right.tiger==false
 			            		 && b.p[destination].right.goat==false)){
 			            	
 			            
@@ -406,7 +451,7 @@ public class MiniMax {
 		 
 		 int j,i;
 		
-		   for(j=0,i=0;i<=22;i++){	
+		   for(j=0,i=0; i<=22 && !(j==3) ;i++){	
 			   
 			   if(b.p[i].tiger==true){
 				   
@@ -425,7 +470,7 @@ public class MiniMax {
 		 
 		 int j,i;
 		
-		   for(j=0,i=0;i<=22;i++){	
+		   for(j=0,i=0;i<=22 ;i++){	
 			   
 			   if(b.p[i].goat==true){
 				   

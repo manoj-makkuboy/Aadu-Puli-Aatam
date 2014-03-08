@@ -1,8 +1,17 @@
 package board;
 
-public class Board {
+import java.io.Serializable;
+
+import ai.MiniMax;
+
+public class Board  {
 	
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	MiniMax MX = new MiniMax();
 	
 	public Coin p[]=new Coin[24];
 	boolean tigers_move = false;  //to find whether it is tiger's move or goat's move
@@ -45,41 +54,67 @@ public class Board {
     p[21] = new Coin(500,550,"21");
     p[22] = new Coin(700,550,"22");    
      
-    p[0].direction(p[2],p[3],p[4],p[5]);
-    p[1].direction(null, p[2], null, p[7]);  
-    p[2].direction(p[1], p[3], p[0], p[8]);
-    p[3].direction(p[2], p[4], p[0], p[9]);
-    p[4].direction(p[3], p[5], p[0], p[10]);
-    p[5].direction(p[4], p[6], p[0], p[11]);
-    p[6].direction(p[5], null, null, p[12]);
-    p[7].direction(null, p[8], p[1], p[13]);
-    p[8].direction(p[7],p[9],p[2],p[14]);
-    p[9].direction(p[8], p[10], p[3], p[15]);
-    p[10].direction(p[9], p[11], p[4], p[16]);
-    p[11].direction(p[10],p[12],p[5],p[17]);
-    p[12].direction(p[11], null, p[6], p[18]);
-    p[13].direction(null, p[14], p[7], null);
-    p[14].direction(p[13], p[15], p[8], p[19]);
-    p[15].direction(p[14], p[16], p[9], p[20]);
-    p[16].direction(p[15], p[17], p[10], p[21]);
-    p[17].direction(p[16], p[18], p[11], p[22]);
-    p[18].direction(p[17],null,p[12],null);
-    
-    p[19].direction(null,p[20],p[14],null);
-    p[20].direction(p[19], p[21], p[15], null);
-    p[21].direction(p[20], p[22], p[16], null);
-    p[22].direction(p[21],null,p[17],null);
+    directions();
     
 				//Default tiger position
 	  add_tiger(p[0]);
 	  add_tiger(p[3]);
 	  add_tiger(p[4]);
+	 
 	  
 	 
 	
 	} 
-	Board(){
-		// It does Nothing
+	
+	
+	void directions(){
+		
+		  p[0].direction(p[2],p[3],p[4],p[5]);
+		    p[1].direction(null, p[2], null, p[7]);  
+		    p[2].direction(p[1], p[3], p[0], p[8]);
+		    p[3].direction(p[2], p[4], p[0], p[9]);
+		    p[4].direction(p[3], p[5], p[0], p[10]);
+		    p[5].direction(p[4], p[6], p[0], p[11]);
+		    p[6].direction(p[5], null, null, p[12]);
+		    p[7].direction(null, p[8], p[1], p[13]);
+		    p[8].direction(p[7],p[9],p[2],p[14]);
+		    p[9].direction(p[8], p[10], p[3], p[15]);
+		    p[10].direction(p[9], p[11], p[4], p[16]);
+		    p[11].direction(p[10],p[12],p[5],p[17]);
+		    p[12].direction(p[11], null, p[6], p[18]);
+		    p[13].direction(null, p[14], p[7], null);
+		    p[14].direction(p[13], p[15], p[8], p[19]);
+		    p[15].direction(p[14], p[16], p[9], p[20]);
+		    p[16].direction(p[15], p[17], p[10], p[21]);
+		    p[17].direction(p[16], p[18], p[11], p[22]);
+		    p[18].direction(p[17],null,p[12],null);
+		    
+		    p[19].direction(null,p[20],p[14],null);
+		    p[20].direction(p[19], p[21], p[15], null);
+		    p[21].direction(p[20], p[22], p[16], null);
+		    p[22].direction(p[21],null,p[17],null);
+		
+	}
+	
+	
+	public Board(Board toBeCopied){ //constructor for cloning object of Board 
+		
+		this.tigers_move = toBeCopied.tigers_move;  //to find whether it is tiger's move or goat's move
+		this.goatInsertionEnded = toBeCopied.goatInsertionEnded;
+		this.goatWon = toBeCopied.goatWon;		//Naming conversion courtesy to SivanSing
+		this.tigerWon = toBeCopied.tigerWon;
+		this.totalNoOfGoat = toBeCopied.totalNoOfGoat;
+		this.noOfGoatsInserted = toBeCopied.noOfGoatsInserted;
+		this.goatKilled = toBeCopied.goatKilled;
+		
+		for(int i=0; i<23; i++)
+			this.p[i] = new Coin(toBeCopied.p[i]); 
+		
+		directions();
+		
+		
+		
+		
 	}
 	
 	
@@ -370,6 +405,8 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 		 goatWon = true;
 	 if(isTigerWinner()==true)
 		 tigerWon = true;
+	 
+	 MX.startMiniMax(this, false);
 		
 	 
 	}
