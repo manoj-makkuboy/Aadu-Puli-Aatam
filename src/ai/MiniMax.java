@@ -15,7 +15,8 @@ public class MiniMax {
 	
 	int maxDepth = 3;
 
-	int finalMoveToBePerformed[] = new int[12];
+	int tiger_sFinalMoveToBePerformed[] = new int[12];
+	int goat_sFinalMoveToBePerformed[] = new int [50];
 	
 	
 	public void startMiniMax(Board b, boolean isThisTurnTiger_s){
@@ -33,7 +34,7 @@ public class MiniMax {
 		
 		for(int i=0; i<12; i++){
 			
-			if(finalMoveToBePerformed[i] == testValue){
+			if(tiger_sFinalMoveToBePerformed[i] == testValue){
 				System.out.println("the best move for Tiger is :"+generatedTigerMoveForFinal[i][0]+"-"+generatedTigerMoveForFinal[i][1]);
 				break;
 			}
@@ -46,8 +47,44 @@ public class MiniMax {
 		
 		System.out.println("the current board value :"+analysis(b));
 		
+		
+		findTestValueForGoat(b);
+		
 	}
 	
+	private void findTestValueForGoat(Board b) {
+		// TODO Auto-generated method stub
+		int testValue = 0;
+		
+		int generatedGoatMoveForFinal[][] = generateGoatMove(b);
+	
+	
+			testValue = goatValue(b,0); // depth =0 when first calling
+		
+		
+		
+		for(int i=0; i<23; i++){
+			
+			if(goat_sFinalMoveToBePerformed[i] == testValue){
+				System.out.println("the best move for Goat is :"+generatedGoatMoveForFinal[i][0]+"-"+generatedGoatMoveForFinal[i][1]);
+				break;
+			}
+			
+		}
+		
+		System.out.println("This is Test VALUE :"+testValue);
+		
+	
+		
+		System.out.println("the current board value :"+analysis(b));
+		
+		
+	
+		
+		
+		
+	}
+
 	int tigerValue(Board b, int depth){
 		
 		if ((gameOver(b)) || depth > maxDepth)
@@ -69,7 +106,7 @@ public class MiniMax {
 				max = x;
 			
 			if(depth == 0){			// for selecting the move for performing in the real board
-				finalMoveToBePerformed[i] = x ;
+				tiger_sFinalMoveToBePerformed[i] = x ;
 			}
 			
 		}
@@ -104,6 +141,10 @@ public class MiniMax {
 			
 			if(x < min)
 				min = x;
+			
+			if(depth == 0){			// for selecting the move for performing in the real board
+				goat_sFinalMoveToBePerformed[i] = x ;
+			}
 			
 		}
 		return min;
@@ -185,10 +226,10 @@ public class MiniMax {
 		
 		tigerPositions = getTigers(b);
 		
-		if(b.noOfGoatsInserted < 15){
+		if(b.goatInsertionEnded == false){
 			
 			for(int i=0,j=0; i<=22; i++){
-				if( i != tigerPositions[0] && i != tigerPositions[1] && i!= tigerPositions[2] ){
+				if( i != tigerPositions[0] && i != tigerPositions[1] && i!= tigerPositions[2] && b.p[i].goat==false ){
 					
 					generatedGoatMoves[j][0]= i;		// when origin and destination are same the 
 														// fn() to be called will insert a goat into the board
@@ -206,7 +247,7 @@ public class MiniMax {
 			
 		}
 		
-		else{
+		else {
 			
 			int[] goatPositions = new int[b.totalNoOfGoat];
 			goatPositions = getGoats(b);

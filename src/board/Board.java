@@ -15,7 +15,7 @@ public class Board  {
 	
 	public Coin p[]=new Coin[24];
 	boolean tigers_move = false;  //to find whether it is tiger's move or goat's move
-	boolean goatInsertionEnded = false;
+	public boolean goatInsertionEnded = false;
 	public boolean goatWon = false;		//Naming conversion courtesy to SivanSing
 	public boolean tigerWon = false;
 	public int totalNoOfGoat = 0;
