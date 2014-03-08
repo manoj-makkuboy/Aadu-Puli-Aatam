@@ -150,13 +150,13 @@ public class Board  {
 	    else if(tigers_move == false){						//checking "is it goat's turn"
 	    	
 	    	
-	    	if(totalNoOfGoat<15 && goatInsertionEnded == false && i==j && p[i].vacant == true){		
+	    	if(noOfGoatsInserted<16 && goatInsertionEnded == false && i==j && p[i].vacant == true){		
 	    	
 	    		
 	    		add_goat(p[i]);
 	    		tigers_move = true;
 	    		
-	    		if(totalNoOfGoat == 15){
+	    		if(noOfGoatsInserted == 15){
 	    			goatInsertionEnded = true;
 	    			
 	    		}
