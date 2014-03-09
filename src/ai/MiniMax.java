@@ -13,7 +13,7 @@ import board.Board;
 	
 public class MiniMax {
 	
-	int maxDepth = 3;
+	int maxDepth = 6;
 
 	int tiger_sFinalMoveToBePerformed[] = new int[12];
 	int goat_sFinalMoveToBePerformed[] = new int [50];
@@ -61,7 +61,7 @@ public class MiniMax {
 		int generatedGoatMoveForFinal[][] = generateGoatMove(b);
 	
 	
-		testValue = goatValue(b,0); // depth =0 when first calling
+		testValue = goatValue(b,0,minusInfinity,plusInfinity); // depth =0 when first calling
 		
 		
 		
@@ -87,7 +87,7 @@ public class MiniMax {
 		
 	}
 
-	int tigerValue(Board b, int depth){
+	int tigerValue(Board b, int depth,int alpha, int beta){
 		
 		if ((gameOver(b)) || depth > maxDepth)
 			return analysis(b);
@@ -102,9 +102,12 @@ public class MiniMax {
 			
 			
 			Board c2 = new Board(c);
-			int x = goatValue((c2),depth+1);
+			int x = goatValue((c2),depth+1,alpha, beta);
 			
 			if (x>max) max = x;
+			
+			 if (x>alpha) alpha = x;
+				        if (alpha>=beta) return alpha;
 			        		
 			
 			if(depth == 0){			// for selecting the move for performing in the real board
@@ -122,7 +125,7 @@ public class MiniMax {
 	
 	
 	
-	private int goatValue(Board b, int depth) {
+	private int goatValue(Board b, int depth,int alpha, int beta) {
 		// TODO Auto-generated method stub
 
 		if ((gameOver(b)) || depth > maxDepth)
@@ -137,7 +140,7 @@ public class MiniMax {
 			c.move_coin(c.p[generatedGoatMoves[i][0]], c.p[generatedGoatMoves[i][1]]);
 			
 			Board c2 = new Board(c);
-			int x = tigerValue(c2,depth+1);
+			int x = tigerValue(c2,depth+1, alpha, beta);
 			
 	/*		if(depth == 0 ){
 				if( x<min){			// for selecting the move for performing in the real board
@@ -151,6 +154,8 @@ public class MiniMax {
 			
 			if(x<min)
 				min = x;
+			if (x<beta) beta = x;
+			        if (alpha>=beta) return beta;
 			
 			if(depth == 0)
 				goat_sFinalMoveToBePerformed[i] = x ;
