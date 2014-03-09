@@ -123,7 +123,7 @@ public class Board  {
 	
 	
 	
-	void takeDecision(int i,int j){   
+	public void takeDecision(int i,int j){   
 	   if(isOverJumping(p[i],p[j]) == true){
 		   System.out.println("Over jumping condition caught in Board.java");
 	   }  
@@ -457,6 +457,11 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 		  boolean p0=false;
 		  boolean moveSuccess = false;
 		  
+		  if(origin.vacant == true && origin.equals(destination)){
+			  this.add_goat(origin);
+			  moveSuccess = true;
+			  return moveSuccess;
+		  }
 		  if(origin.vacant == true){  //Checking FROM point for coin
 			  System.out.println("The FROM point has no coin");
 			  

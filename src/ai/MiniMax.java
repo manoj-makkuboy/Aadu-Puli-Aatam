@@ -17,6 +17,8 @@ public class MiniMax {
 
 	int tiger_sFinalMoveToBePerformed[] = new int[12];
 	int goat_sFinalMoveToBePerformed[] = new int [50];
+	int plusInfinity = 999999999;
+	int minusInfinity = -999999999;
 	
 	
 	public void startMiniMax(Board b, boolean isThisTurnTiger_s){
@@ -28,7 +30,7 @@ public class MiniMax {
 		int testValue = 0;
 		
 		if(isThisTurnTiger_s == false)
-			testValue = tigerValue(b,0); // depth =0 when first calling
+		//	testValue = tigerValue(b,0); // depth =0 when first calling
 		
 		
 		
@@ -59,7 +61,7 @@ public class MiniMax {
 		int generatedGoatMoveForFinal[][] = generateGoatMove(b);
 	
 	
-			testValue = goatValue(b,0); // depth =0 when first calling
+		testValue = goatValue(b,0); // depth =0 when first calling
 		
 		
 		
@@ -102,8 +104,8 @@ public class MiniMax {
 			Board c2 = new Board(c);
 			int x = goatValue((c2),depth+1);
 			
-			if(x > max)
-				max = x;
+			if (x>max) max = x;
+			        		
 			
 			if(depth == 0){			// for selecting the move for performing in the real board
 				tiger_sFinalMoveToBePerformed[i] = x ;
@@ -137,14 +139,22 @@ public class MiniMax {
 			Board c2 = new Board(c);
 			int x = tigerValue(c2,depth+1);
 			
+	/*		if(depth == 0 ){
+				if( x<min){			// for selecting the move for performing in the real board
+					goat_sFinalMoveToBePerformed[i] = x ;
+				}
+				else if(x<beta)
+					goat_sFinalMoveToBePerformed[i] = x ;
+				else if(alpha>=beta)
+					goat_sFinalMoveToBePerformed[i] = beta ;
+			} */
 			
-			
-			if(x < min)
+			if(x<min)
 				min = x;
 			
-			if(depth == 0){			// for selecting the move for performing in the real board
+			if(depth == 0)
 				goat_sFinalMoveToBePerformed[i] = x ;
-			}
+			
 			
 		}
 		return min;
@@ -229,21 +239,18 @@ public class MiniMax {
 		if(b.goatInsertionEnded == false){
 			
 			for(int i=0,j=0; i<=22; i++){
-				if( i != tigerPositions[0] && i != tigerPositions[1] && i!= tigerPositions[2] && b.p[i].goat==false ){
+				if( isThisMoveValidForGoat(i, i, b) ){
 					
 					generatedGoatMoves[j][0]= i;		// when origin and destination are same the 
 														// fn() to be called will insert a goat into the board
 					generatedGoatMoves[j][1] = i;
-					trimLength = j++;
+					j++;
 
 				}
-			
+			trimLength =j;
 			}
 			
-			
-			
-			
-		return trimArray(generatedGoatMoves,trimLength+1); //take care										
+		return trimArray(generatedGoatMoves,trimLength); //take care										
 			
 		}
 		
@@ -396,11 +403,18 @@ public class MiniMax {
 	
 	boolean isThisMoveValidForGoat(int origin, int destination, Board b){
 		
-		if(b.p[origin].goat == true && b.p[destination].vacant == true)
-			return true;
-		else
-			return false;
-		
+		if(b.goatInsertionEnded == false){
+			if(origin == destination && b.p[origin].vacant == true)
+				return true;
+			else
+				return false;
+		}
+		else{
+			if(b.p[origin].goat == true && b.p[destination].vacant == true)
+				return true;
+			else
+				return false;
+		}
 		
 		
 	}
