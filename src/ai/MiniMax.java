@@ -13,7 +13,7 @@ import board.Board;
 	
 public class MiniMax {
 	
-	int maxDepth = 6;
+	public static int maxDepth = 7;
 
 	int tiger_sFinalMoveToBePerformed[] = new int[12];
 	int goat_sFinalMoveToBePerformed[] = new int [50];
@@ -21,40 +21,48 @@ public class MiniMax {
 	int minusInfinity = -999999999;
 	
 	
-	public void startMiniMax(Board b, boolean isThisTurnTiger_s){
-		
-	
-		int generatedTigerMoveForFinal[][] = generateTigerMove(b);
-	
-		
-		int testValue = 0;
-		
-		if(isThisTurnTiger_s == false)
-		//	testValue = tigerValue(b,0); // depth =0 when first calling
-		
-		
-		
-		for(int i=0; i<12; i++){
+	public void startMiniMax(Board b, boolean onTigerAI){
 			
-			if(tiger_sFinalMoveToBePerformed[i] == testValue){
-				System.out.println("the best move for Tiger is :"+generatedTigerMoveForFinal[i][0]+"-"+generatedTigerMoveForFinal[i][1]);
-				break;
+		
+		
+		if(onTigerAI == true && b.tigers_move == true){		// this block activates Tiger AI
+			
+			int i;
+			
+			int generatedTigerMoveForFinal[][] = generateTigerMove(b);			
+		
+			int testValue = 0;
+			testValue = tigerValue(b,0,minusInfinity,plusInfinity);	// depth =0 when first calling
+			
+			for(i=0; i<12; i++){
+				
+				if(tiger_sFinalMoveToBePerformed[i] == testValue){
+					System.out.println("the best move for Tiger is :"+generatedTigerMoveForFinal[i][0]+"-"+generatedTigerMoveForFinal[i][1]);
+					break;
+				}
+				
 			}
 			
-		}
+			
+			b.takeDecision(generatedTigerMoveForFinal[i][0], generatedTigerMoveForFinal[i][1]);
 		
-		System.out.println("This is Test VALUE :"+testValue);
+			}									 
+		else if(onTigerAI == false && b.tigers_move == false){		// Activation of goat AI
+			
+				activateGoatAI(b);
 		
-	
+			
+		}		
+			
 		
-		System.out.println("the current board value :"+analysis(b));
 		
 		
-		findTestValueForGoat(b);
+		
+		
 		
 	}
 	
-	private void findTestValueForGoat(Board b) {
+	public void activateGoatAI(Board b) {
 		// TODO Auto-generated method stub
 		int testValue = 0;
 		
@@ -62,18 +70,21 @@ public class MiniMax {
 	
 	
 		testValue = goatValue(b,0,minusInfinity,plusInfinity); // depth =0 when first calling
+		int i;
 		
 		
-		
-		for(int i=0; i<23; i++){
+		for(i=0; i<generatedGoatMoveForFinal.length; i++){
 			
 			if(goat_sFinalMoveToBePerformed[i] == testValue){
 				System.out.println("the best move for Goat is :"+generatedGoatMoveForFinal[i][0]+"-"+generatedGoatMoveForFinal[i][1]);
 				break;
 			}
 			
+	
+			
 		}
 		
+		b.takeDecision(generatedGoatMoveForFinal[i][0], generatedGoatMoveForFinal[i][1]);
 		System.out.println("This is Test VALUE :"+testValue);
 		
 	
@@ -188,6 +199,21 @@ public class MiniMax {
 					tigerLossPoints = tigerLossPoints + 5;
 				
 			}
+			for (int i=0; i<3 ; i++){
+				if(b.p[tigerPosition[0]].right != null)
+					if(b.p[tigerPosition[0]].right.vacant == false)
+						tigerLossPoints++;
+				if(b.p[tigerPosition[0]].left != null)
+					if(b.p[tigerPosition[0]].left.vacant == false)
+						tigerLossPoints++;
+				if(b.p[tigerPosition[0]].top != null)
+					if(b.p[tigerPosition[0]].top.vacant == false)
+						tigerLossPoints++;
+				if(b.p[tigerPosition[0]].bottom != null)
+					if(b.p[tigerPosition[0]].bottom.vacant == false)
+					tigerLossPoints++;
+			}
+			
 			
 			
 			
@@ -203,7 +229,7 @@ public class MiniMax {
 
 
 
-	static boolean gameOver(Board b){			// Checking whether won condition for MinMax algorithm 
+	public static boolean gameOver(Board b){			// Checking whether won condition for MinMax algorithm 
 		
 		if(b.goatWon == true || b.tigerWon == true)	
 				return true;
@@ -261,10 +287,10 @@ public class MiniMax {
 		
 		else {
 			
-			int[] goatPositions = new int[b.totalNoOfGoat];
+			int[] goatPositions = new int[b.totalNoOfGoatOnTheBoard];
 			goatPositions = getGoats(b);
 			
-			for(int i=0,j=0 ; i< b.totalNoOfGoat ; i++){
+			for(int i=0,j=0 ; i< b.totalNoOfGoatOnTheBoard ; i++){
 				
 				if(b.p[goatPositions[i]].left != null){
 					if(isThisMoveValidForGoat(Integer.parseInt(b.p[goatPositions[i]].point_name)
@@ -504,7 +530,7 @@ public class MiniMax {
 	}
 	
 	
-	int[] getTigers(Board b){
+	public int[] getTigers(Board b){
 		
 		
 		int[] Tiger = new int[3];
@@ -526,7 +552,7 @@ public class MiniMax {
 	}
 	
 	int[] getGoats(Board b){
-		int[] goat = new int[b.totalNoOfGoat];
+		int[] goat = new int[b.totalNoOfGoatOnTheBoard];
 		 
 		 int j,i;
 		
@@ -548,10 +574,7 @@ public class MiniMax {
 
 	
 	
-	
-
-	
-	
+		
 	
 	
 }

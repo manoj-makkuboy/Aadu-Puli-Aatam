@@ -17,28 +17,26 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
+import ai.MiniMax;
+
 
 
 @SuppressWarnings("serial")
 public class Game extends JPanel implements MouseListener, Runnable {
    static  int  X_1=380,Y_1=20,X_2=325,Y_2=225,X_3=440,Y_3=225;
+   
+  public  static boolean tigerAIOn = false;
+  public static boolean AI = false;
 
     static int input_x1,input_y1,input_x2,input_y2;
 
+    static MiniMax MX_onGame = new MiniMax();
     static  Game game = new Game();
     static	Board REAL = new Board(0);
     static int goat_coordinate[][]=new int [15][2];
-    
-    
-
-   
-   
-	 
 	
 	BufferedImage img,tiger_1,goat,background;
 	
-	
-
 	  protected void move_tiger_gui(int a_Game[][]) { // 'x' and 'y' are destination point co-ordinates
 	    
 		X_1=a_Game[0][0];
@@ -56,7 +54,7 @@ public class Game extends JPanel implements MouseListener, Runnable {
 void move_goat_gui(Coin goat_c[]){
 	
 	
-	for(int i =0;i<REAL.totalNoOfGoat;i++){
+	for(int i =0;i<REAL.totalNoOfGoatOnTheBoard;i++){
 		
 		goat_coordinate[i][0] = goat_c[i].X;
 		goat_coordinate[i][1] = goat_c[i].Y;
@@ -96,7 +94,7 @@ public Game() {
 		g2d.drawImage(tiger_1,X_2,Y_2,null);
 		g2d.drawImage(tiger_1,X_3,Y_3,null);
 		
-		for(int l=0;l<REAL.totalNoOfGoat;l++){
+		for(int l=0;l<REAL.totalNoOfGoatOnTheBoard;l++){
 			
 			g2d.drawImage(goat,goat_coordinate[l][0],goat_coordinate[l][1],null);
 		}
@@ -104,7 +102,7 @@ public Game() {
 	}
 
 
-	public static void humanVsHuman() {    // Called by run() from the bottom of this class
+	public static void playGame() {    // Called by run() from the bottom of this class
 		
 		JFrame frame = new JFrame("Aadu Puli Aatam");
 		
@@ -145,15 +143,37 @@ public Game() {
 					e.printStackTrace();
 				}			// suspends the main thread for 100 ms
 				frame.repaint();			// call paint()
+				
+				if( AI==true){
+						MX_onGame.startMiniMax(REAL,tigerAIOn);	// This "false" refers to onTigerAI
+					
+						REAL.display();
+				}
 			
-				if(REAL.goatWon == true){	
+				if(REAL.goatWon == true){
 					System.out.println("The winner is Goat");
 					frame.removeMouseListener(ml);
+					game.repaint();
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 				break;		
 				}
 				else if(REAL.tigerWon == true){
+					
 					System.out.println("The Winner is Tiger");
 					frame.removeMouseListener(ml);
+					game.repaint();
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				break;
 				}
 				
@@ -197,9 +217,14 @@ public Game() {
 		// TODO Auto-generated method stub
 		input_x2 = arg0.getX();
 		input_y2 = arg0.getY();
+	
 		
 		System.out.println(input_x2+","+input_y2);
 		game.getInput_and_findPoint(input_x1, input_y1, input_x2, input_y2);
+	    System.out.println("No. of goat = "+REAL.totalNoOfGoatOnTheBoard);
+	    System.out.println("goat killed = "+REAL.goatKilled);
+			// should be replaced by tiger_move
+		
 	}
 
 	@Override
@@ -230,7 +255,7 @@ public Game() {
 	@Override
 	public void run() {					// Main method of this thread
 		// TODO Auto-generated method stub
-		humanVsHuman();
+		playGame();
 		
 	}
 	
@@ -247,6 +272,8 @@ void getInput_and_findPoint(int input_from_x,int input_from_y,int input_to_x, in
 	   
 	   if(i != 777 && j != 777){
 		   REAL.takeDecision(i,j);
+		   REAL.display();
+		  
 	   }
 	   else{
 		   System.out.println("Invalid input points");

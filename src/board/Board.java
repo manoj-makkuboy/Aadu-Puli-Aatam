@@ -14,13 +14,14 @@ public class Board  {
 	MiniMax MX = new MiniMax();
 	
 	public Coin p[]=new Coin[24];
-	boolean tigers_move = false;  //to find whether it is tiger's move or goat's move
+	public boolean tigers_move = false;  //to find whether it is tiger's move or goat's move
 	public boolean goatInsertionEnded = false;
 	public boolean goatWon = false;		//Naming conversion courtesy to SivanSing
 	public boolean tigerWon = false;
-	public int totalNoOfGoat = 0;
+	
 	public int noOfGoatsInserted = 0;
 	public int goatKilled = 0;
+	public int totalNoOfGoatOnTheBoard = 0;
 
 	public Board(int i){
 		// TODO Auto-generated method stub
@@ -69,7 +70,7 @@ public class Board  {
 	
 	void directions(){
 		
-		  p[0].direction(p[2],p[3],p[4],p[5]);
+			p[0].direction(p[2],p[3],p[4],p[5]);
 		    p[1].direction(null, p[2], null, p[7]);  
 		    p[2].direction(p[1], p[3], p[0], p[8]);
 		    p[3].direction(p[2], p[4], p[0], p[9]);
@@ -97,13 +98,13 @@ public class Board  {
 	}
 	
 	
-	public Board(Board toBeCopied){ //constructor for cloning object of Board 
+	public Board(Board toBeCopied){ 							//constructor for cloning object of Board 
 		
-		this.tigers_move = toBeCopied.tigers_move;  //to find whether it is tiger's move or goat's move
+		this.tigers_move = toBeCopied.tigers_move;  			//to find whether it is tiger's move or goat's move
 		this.goatInsertionEnded = toBeCopied.goatInsertionEnded;
-		this.goatWon = toBeCopied.goatWon;		//Naming conversion courtesy to SivanSing
+		this.goatWon = toBeCopied.goatWon;						//Naming conversion courtesy to SivanSing
 		this.tigerWon = toBeCopied.tigerWon;
-		this.totalNoOfGoat = toBeCopied.totalNoOfGoat;
+		this.totalNoOfGoatOnTheBoard = toBeCopied.totalNoOfGoatOnTheBoard;
 		this.noOfGoatsInserted = toBeCopied.noOfGoatsInserted;
 		this.goatKilled = toBeCopied.goatKilled;
 		
@@ -112,16 +113,7 @@ public class Board  {
 		
 		directions();
 		
-		
-		
-		
 	}
-	
-	
-	
-	
-	
-	
 	
 	public void takeDecision(int i,int j){   
 	   if(isOverJumping(p[i],p[j]) == true){
@@ -136,15 +128,17 @@ public class Board  {
 		    		if(move_coin(p[i],p[j])==true) {
 		    			tigers_move=false;
 		    		}
-		    		else
+		    		else{
+		    			
 		    			return;
+		    		}
 		    }
 		    catch(NullPointerException e){ 									// activated when move out of range
 		    	System.out.println("Move Out of Range : Invalid move");
 		    }
 	    }
 	    else if(p[i].tiger==true && tigers_move == false){
-	    	System.out.println("this is invalid move for tiger");
+	    	System.out.println("This is not Tiger's Turn");
 	    	
 	    }
 	    else if(tigers_move == false){						//checking "is it goat's turn"
@@ -153,17 +147,19 @@ public class Board  {
 	    	if(noOfGoatsInserted<16 && goatInsertionEnded == false && i==j && p[i].vacant == true){		
 	    	
 	    		
-	    		add_goat(p[i]);
+	    		move_coin(p[i],p[j]);			// adds coin
 	    		tigers_move = true;
 	    		
 	    		if(noOfGoatsInserted == 15){
+	    			
 	    			goatInsertionEnded = true;
 	    			
+	    			
 	    		}
-	    		
+	    		return;
 		    	
 	    	}
-	    	else if(goatInsertionEnded == true){
+	    	else if(goatInsertionEnded == true && i!=j){
 	    		try{
 			    	System.out.println("Valid move for goat");
 			    	
@@ -177,17 +173,16 @@ public class Board  {
 			    	System.out.println("Move Out of Range : Invalid move");
 			    }
 	    	}
-	  
-	    	
+	  	
 	    }
 	    else if(p[i].goat==true && tigers_move == true){
 	    	System.out.println("this is invalid move for goat");
 	    	
 	    }
+	
 	    
-	    
-	    display();			//Calls display() of Board.java
-	    
+
+	  
 	 
 		
  }						// End of getInput function
@@ -197,7 +192,7 @@ public class Board  {
 		|| (FROM.equals(TO.right))
 		|| (FROM.equals(TO.top))
 		|| (FROM.equals(TO.bottom)
-		|| (FROM.equals(TO)/*This line is for catching conditions i = j i.e. for condition of adding goat */))){
+		|| (FROM.equals(TO)	/*This line is for catching conditions i = j i.e. for condition of adding goat */))){
 			return false;
 			
 		}
@@ -218,8 +213,6 @@ public class Board  {
 		
 		}
 		
-		
-	
 	public boolean isGoatWinner(Coin tiger_status){   // function overloading this checked the blocked tiger "tiger_staus"
 		
 		boolean rightNotClear=false,leftNotClear=false,topNotClear = false,bottomNotClear = false;
@@ -271,11 +264,6 @@ public class Board  {
 		
 		else 
 			return false;
-		
-				
-		  
-		
-		
 		       
 	
 	}
@@ -354,15 +342,14 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 		 int[][] a = new int[3][3];
 		 
 		 int j,i;
-		   System.out.println("Tiger at");//Display
+		 
 		   for(j=0,i=0;i<=22;i++){	
 			   if(p[i].tiger==true)
 		   	{
-		      System.out.println("p["+i+"]");
-		     
-		     
+		   
 		      Tiger[j]=p[i];
 		      j++;		 
+		      if(j==3) break;
 		   	}
 			   
 			  
@@ -380,15 +367,16 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 		  
 		   T_Game.move_tiger_gui(a);									//updates the gui function of tiger
 		  
-		   	System.out.println("Goat at");
+		   
 		   	j=0;
 		   for(i=0;i<=22;i++)
 		   {
 		  	 if(p[i].goat==true)
 		  	 {	
-		  		 System.out.println("p["+i+"]");
+		  		
 		  		 Goat[j]=p[i];
 		  		 j++;
+		  		 if(j== totalNoOfGoatOnTheBoard) break;
 		  		
 		  	 }
 		   }
@@ -396,25 +384,17 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 	   
 	 T_Game.move_goat_gui(Goat);  // updates the gui function of goat
 
-	 
-
-    System.out.println("No. of goat = "+totalNoOfGoat);
-    System.out.println("goat killed = "+goatKilled);
-    
 	 if(isGoatWinner(Tiger)==true)
 		 goatWon = true;
 	 if(isTigerWinner()==true)
 		 tigerWon = true;
-	 
-	 MX.startMiniMax(this, false);
-		
 	 
 	}
 	
 	void add_goat(Coin positionForGoat){
 		  positionForGoat.goat = true; 
 		  positionForGoat.vacant = false;
-		  totalNoOfGoat++;
+		  totalNoOfGoatOnTheBoard++;
 		  noOfGoatsInserted++;
 	  	}
 	
@@ -464,7 +444,7 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 		  }
 		  if(origin.vacant == true){  //Checking FROM point for coin
 			  System.out.println("The FROM point has no coin");
-			  
+			  moveSuccess = false;
 			  return moveSuccess;
 		  }
 		  
@@ -478,7 +458,7 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 		  
 		  if(destination.tiger==false && destination.goat==false){//change of coin position if destination is vacant
 			  
-			moveSuccess=true;
+			
 			
 			  if(origin.tiger==true){
 				   
@@ -486,24 +466,28 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 				  destination.tiger = true;
 				  origin.vacant = true;								//changes the states of this and destination for moving
 				  destination.vacant = false;
+				  moveSuccess=true;
 			  }
 			  else if (origin.goat==true){
 				  origin.goat=false;
 				  destination.goat=true;
 				  origin.vacant = true;
 				  destination.vacant= false;
+				  moveSuccess=true;
 			  }
 			
 			  
 		  }
 		  else if(destination.tiger==true){
 			  System.out.println("Invalid move 'Tiger exists'");
+			  moveSuccess = false;
 			  return moveSuccess;
 		  }
 		  else if(destination.goat==true){//checking eat condition
 			  
 			  	if(p0==true){//if destination is p0 no need to continue checking conditions
 			  		System.out.println("Can't move 'goat exists'");
+			  		moveSuccess = false;
 			  		return moveSuccess;
 			  	}
 			  	
@@ -516,11 +500,11 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 			            	 destination.goat = false;
 			            	 System.out.println("EatCondition satisfied");
 			            	 	move_coin(origin,destination);	
-			            	 	//needs change while creating gui													//moving by 2 step while eating
+			            	 	//needs change while creating gui							//moving by 2 step while eating
 			            	 move_coin(destination,destination.left);
 			            	 
-			            	 totalNoOfGoat--;	//static int for number of goat 
-			            	 goatKilled++;
+			            	 totalNoOfGoatOnTheBoard--;	//static int for number of goat 
+			            	 ++goatKilled;
 			            	 moveSuccess=true;
 			             }
 			             else if((origin.equals(destination.top)
@@ -529,12 +513,12 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 			            	 destination.goat = false;
 			            	 
 			            	 System.out.println("EatCondition satisfied");
-			            	 move_coin(origin,destination);//Moving by 2 step 
-			      
+			            	 move_coin(origin,destination);
 			            	 move_coin(destination,destination.bottom);
 			            	
-			            	 totalNoOfGoat--;	//static int for number of goat 
-			            	 goatKilled++;
+			            	
+			            	 totalNoOfGoatOnTheBoard--;	//static int for number of goat 
+			            	 ++goatKilled;
 			            	 moveSuccess=true;
 			             }
 			             else if((origin.equals(destination.bottom)
@@ -544,11 +528,10 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 			            	 
 			            	
 			            	 System.out.println("EatCondition satisfied");
-			            	 move_coin(origin,destination);//Moving by 2 step
-			            	 
+			            	 move_coin(origin,destination);
 			            	 move_coin(destination,destination.top);
-			            	 totalNoOfGoat--;	//static int for number of goat 
-			            	 goatKilled++;
+			            	 totalNoOfGoatOnTheBoard--;	//static int for number of goat 
+			            	 ++goatKilled;
 			            	 moveSuccess=true;
 			             }
 			             else if((origin.equals(destination.left)
@@ -556,12 +539,11 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 			            		 && destination.right.goat==false)){
 			            	 destination.goat = false;
 			            	 System.out.println("EatCondition satisfied");
-			            	 move_coin(origin,destination);					//Moving by 2 step
-			            	
-			            	move_coin(destination,destination.right);
+			            	 move_coin(origin,destination);
+			            	 move_coin(destination,destination.right);
 			            
-			            	 totalNoOfGoat--;	//static int for number of goat 
-			            	 goatKilled++;
+			            	 totalNoOfGoatOnTheBoard--;	//static int for number of goat 
+			            	 ++goatKilled;
 			            	 moveSuccess=true;
 			             }
 			             else {

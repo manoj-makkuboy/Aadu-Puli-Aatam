@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 
 public class MainMenu extends JFrame {
 	
-	Thread threadForHumanVsHuman = new Thread(new Game());
+	Thread threadForplayGame = new Thread(new Game());
 	Thread threadForHumanVsComputer = new Thread(new SubMenu());
 	
 	static MainMenu menu = new MainMenu();
@@ -47,7 +47,7 @@ public class MainMenu extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				
 				
-				threadForHumanVsHuman.start();    // starts the human vs human game as a new thread
+				threadForplayGame.start();    // starts the human vs human game as a new thread
 				
 				menu.setVisible(false);				// to hide mainMenu when the humanVsHuman mode starts
 			}
@@ -61,6 +61,7 @@ public class MainMenu extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				
 				threadForHumanVsComputer.start();
+				Game.AI = true;
 				
 			}
 		});
