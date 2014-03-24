@@ -32,7 +32,7 @@ public class Board  {
     p[1] = new Coin(50,225,"1");
     p[2] = new Coin(225,225,"2");
     p[3] = new Coin(325,225,"3");
-    p[4] = new Coin(440,225,"4");
+    p[4] = new Coin(425,225,"4");
     p[5] = new Coin(500,225,"5");
     p[6] = new Coin(700,220,"6");
     
@@ -117,14 +117,14 @@ public class Board  {
 	
 	public void takeDecision(int i,int j){   
 	   if(isOverJumping(p[i],p[j]) == true){
-		   System.out.println("Over jumping condition caught in Board.java");
+		
 	   }  
 	    
 	   else if(p[i].tiger==true && tigers_move == true){					//Checking is it tiger's turn
 	    
 	    
 		    try{
-		    	System.out.println("Valid move for tiger");
+		    
 		    		if(move_coin(p[i],p[j])==true) {
 		    			tigers_move=false;
 		    		}
@@ -134,11 +134,11 @@ public class Board  {
 		    		}
 		    }
 		    catch(NullPointerException e){ 									// activated when move out of range
-		    	System.out.println("Move Out of Range : Invalid move");
+		    
 		    }
 	    }
 	    else if(p[i].tiger==true && tigers_move == false){
-	    	System.out.println("This is not Tiger's Turn");
+	    	
 	    	
 	    }
 	    else if(tigers_move == false){						//checking "is it goat's turn"
@@ -161,7 +161,7 @@ public class Board  {
 	    	}
 	    	else if(goatInsertionEnded == true && i!=j){
 	    		try{
-			    	System.out.println("Valid move for goat");
+			    	
 			    	
 			    	if(move_coin(p[i],p[j])==true){
 			    		tigers_move=true;																//moves goat
@@ -170,13 +170,13 @@ public class Board  {
 			    		return;
 			    }
 			    catch(NullPointerException e){ 								// activated when move out of range
-			    	System.out.println("Move Out of Range : Invalid move");
+			    	
 			    }
 	    	}
 	  	
 	    }
 	    else if(p[i].goat==true && tigers_move == true){
-	    	System.out.println("this is invalid move for goat");
+	    	
 	    	
 	    }
 	
@@ -443,7 +443,7 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 			  return moveSuccess;
 		  }
 		  if(origin.vacant == true){  //Checking FROM point for coin
-			  System.out.println("The FROM point has no coin");
+			 
 			  moveSuccess = false;
 			  return moveSuccess;
 		  }
@@ -479,14 +479,14 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 			  
 		  }
 		  else if(destination.tiger==true){
-			  System.out.println("Invalid move 'Tiger exists'");
+			 
 			  moveSuccess = false;
 			  return moveSuccess;
 		  }
 		  else if(destination.goat==true){//checking eat condition
 			  
 			  	if(p0==true){//if destination is p0 no need to continue checking conditions
-			  		System.out.println("Can't move 'goat exists'");
+			  		
 			  		moveSuccess = false;
 			  		return moveSuccess;
 			  	}
@@ -498,7 +498,7 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 			            		 && destination.left.goat==false  )){
 			            	 
 			            	 destination.goat = false;
-			            	 System.out.println("EatCondition satisfied");
+			            	
 			            	 	move_coin(origin,destination);	
 			            	 	//needs change while creating gui							//moving by 2 step while eating
 			            	 move_coin(destination,destination.left);
@@ -512,7 +512,7 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 			            		 && destination.bottom.goat==false)){
 			            	 destination.goat = false;
 			            	 
-			            	 System.out.println("EatCondition satisfied");
+			            	
 			            	 move_coin(origin,destination);
 			            	 move_coin(destination,destination.bottom);
 			            	
@@ -527,7 +527,7 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 			            	 destination.goat = false;
 			            	 
 			            	
-			            	 System.out.println("EatCondition satisfied");
+			            	
 			            	 move_coin(origin,destination);
 			            	 move_coin(destination,destination.top);
 			            	 totalNoOfGoatOnTheBoard--;	//static int for number of goat 
@@ -538,7 +538,7 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 			            		 && destination.right.tiger==false
 			            		 && destination.right.goat==false)){
 			            	 destination.goat = false;
-			            	 System.out.println("EatCondition satisfied");
+			          
 			            	 move_coin(origin,destination);
 			            	 move_coin(destination,destination.right);
 			            
@@ -547,7 +547,7 @@ boolean isOnebottomStepVacant(Coin toBeChecked){
 			            	 moveSuccess=true;
 			             }
 			             else {
-			            	 System.out.println("Eat condition Not satisfied");
+			            	
 			            	 moveSuccess=false;
 			             }
 		  }

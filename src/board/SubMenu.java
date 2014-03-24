@@ -13,6 +13,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ButtonGroup;
+import javax.swing.JSlider;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
 
 public class SubMenu extends JDialog implements Runnable{
 
@@ -40,13 +44,13 @@ public class SubMenu extends JDialog implements Runnable{
 	 * Create the dialog.
 	 */
 	public SubMenu() {
-		setBounds(100, 100, 323, 190);
+		setBounds(100, 100, 213, 189);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(null);
 		
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Play as Tiger");
+		rdbtnNewRadioButton.setBounds(27, 44, 149, 23);
 		buttonGroup.add(rdbtnNewRadioButton);
 		rdbtnNewRadioButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -55,10 +59,11 @@ public class SubMenu extends JDialog implements Runnable{
 				optionSelected = 1;
 			}
 		});
-		rdbtnNewRadioButton.setBounds(72, 23, 149, 23);
+		contentPanel.setLayout(null);
 		contentPanel.add(rdbtnNewRadioButton);
 		
 		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Play as Goat");
+		rdbtnNewRadioButton_1.setBounds(27, 71, 149, 23);
 		buttonGroup.add(rdbtnNewRadioButton_1);
 		rdbtnNewRadioButton_1.addMouseListener(new MouseAdapter() {
 			@Override
@@ -66,7 +71,6 @@ public class SubMenu extends JDialog implements Runnable{
 				optionSelected = 2;
 			}
 		});
-		rdbtnNewRadioButton_1.setBounds(72, 60, 149, 23);
 		contentPanel.add(rdbtnNewRadioButton_1);
 		{
 			JPanel buttonPane = new JPanel();
@@ -104,6 +108,11 @@ public class SubMenu extends JDialog implements Runnable{
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

@@ -4,6 +4,7 @@
 package ai;
 
 import board.Board;
+import board.SubMenu;
 
 /**
  * @author Manoj
@@ -14,6 +15,7 @@ import board.Board;
 public class MiniMax {
 	
 	public static int maxDepth = 7;
+
 
 	int tiger_sFinalMoveToBePerformed[] = new int[12];
 	int goat_sFinalMoveToBePerformed[] = new int [50];
@@ -34,10 +36,11 @@ public class MiniMax {
 			int testValue = 0;
 			testValue = tigerValue(b,0,minusInfinity,plusInfinity);	// depth =0 when first calling
 			
-			for(i=0; i<12; i++){
+			for(i=0; i<generatedTigerMoveForFinal.length; i++){
 				
 				if(tiger_sFinalMoveToBePerformed[i] == testValue){
 					System.out.println("the best move for Tiger is :"+generatedTigerMoveForFinal[i][0]+"-"+generatedTigerMoveForFinal[i][1]);
+					System.out.println("The Test value is "+testValue);
 					break;
 				}
 				
@@ -77,14 +80,16 @@ public class MiniMax {
 			
 			if(goat_sFinalMoveToBePerformed[i] == testValue){
 				System.out.println("the best move for Goat is :"+generatedGoatMoveForFinal[i][0]+"-"+generatedGoatMoveForFinal[i][1]);
+				System.out.println("The Test value is "+testValue);
 				break;
 			}
-			
-	
-			
+					
 		}
 		
-		b.takeDecision(generatedGoatMoveForFinal[i][0], generatedGoatMoveForFinal[i][1]);
+
+		
+		
+		b.takeDecision(generatedGoatMoveForFinal[i][0], generatedGoatMoveForFinal[i][1]);	// array out of bound exception possible.
 		System.out.println("This is Test VALUE :"+testValue);
 		
 	
@@ -115,10 +120,12 @@ public class MiniMax {
 			Board c2 = new Board(c);
 			int x = goatValue((c2),depth+1,alpha, beta);
 			
-			if (x>max) max = x;
+		if (x>max) max = x;
 			
 			 if (x>alpha) alpha = x;
 				        if (alpha>=beta) return alpha;
+				       
+		
 			        		
 			
 			if(depth == 0){			// for selecting the move for performing in the real board
@@ -166,10 +173,10 @@ public class MiniMax {
 			if(x<min)
 				min = x;
 			if (x<beta) beta = x;
-			        if (alpha>=beta) return beta;
+			        if (alpha>=beta) return beta;	
 			
 			if(depth == 0)
-				goat_sFinalMoveToBePerformed[i] = x ;
+				goat_sFinalMoveToBePerformed[i] = x ; 	
 			
 			
 		}
@@ -193,26 +200,37 @@ public class MiniMax {
 			
 			int tigerLossPoints = 0;
 			
+			
+		for (int i=0; i<3 ; i++){
+				
+				int tempLossPoint = 0;
+				
+				if(b.p[tigerPosition[0]].right != null)
+					if(b.p[tigerPosition[0]].right.vacant == false)
+						tempLossPoint++;
+				if(b.p[tigerPosition[0]].left != null)
+					if(b.p[tigerPosition[0]].left.vacant == false)
+						tempLossPoint++;
+				if(b.p[tigerPosition[0]].top != null)
+					if(b.p[tigerPosition[0]].top.vacant == false)
+						tempLossPoint++;
+				if(b.p[tigerPosition[0]].bottom != null)
+					if(b.p[tigerPosition[0]].bottom.vacant == false)
+						tempLossPoint++;
+					
+				if(tempLossPoint == 3)
+					tigerLossPoints = tigerLossPoints+tempLossPoint;
+			}	
+			
+			
+				
 			for(int i=0; i<3 ; i++){
 				
 				if(b.isGoatWinner(b.p[tigerPosition[i]]) == true)
 					tigerLossPoints = tigerLossPoints + 5;
 				
 			}
-			for (int i=0; i<3 ; i++){
-				if(b.p[tigerPosition[0]].right != null)
-					if(b.p[tigerPosition[0]].right.vacant == false)
-						tigerLossPoints++;
-				if(b.p[tigerPosition[0]].left != null)
-					if(b.p[tigerPosition[0]].left.vacant == false)
-						tigerLossPoints++;
-				if(b.p[tigerPosition[0]].top != null)
-					if(b.p[tigerPosition[0]].top.vacant == false)
-						tigerLossPoints++;
-				if(b.p[tigerPosition[0]].bottom != null)
-					if(b.p[tigerPosition[0]].bottom.vacant == false)
-					tigerLossPoints++;
-			}
+			
 			
 			
 			
@@ -475,13 +493,13 @@ public class MiniMax {
 			   
 		  
 		  else if(b.p[destination].tiger==true){
-			  System.out.println("Invalid move 'Tiger exists'");
+			  
 			  return moveStatus;
 		  }
 		  else if(b.p[destination].goat==true){//checking eat condition
 			  
 			  	if(p0 == true){//if destination is p0 no need to continue checking conditions
-			  		System.out.println("Can't move 'goat exists'");
+			  	
 			  		return moveStatus;
 			  	}
 			  	
@@ -518,7 +536,7 @@ public class MiniMax {
 			            	 moveStatus=true;
 			             }
 			             else {
-			            	 System.out.println("Eat condition Not satisfied");
+			            	
 			            	 moveStatus=false;
 			             }
 		  }
@@ -541,7 +559,7 @@ public class MiniMax {
 			   
 			   if(b.p[i].tiger==true){
 				   
-			      System.out.println("p["+i+"]");
+			   
 			      Tiger[j]=Integer.parseInt(b.p[i].point_name);
 			      j++;		 
 			   	}
@@ -560,7 +578,7 @@ public class MiniMax {
 			   
 			   if(b.p[i].goat==true){
 				   
-			      System.out.println("p["+i+"]");
+			      
 			      goat[j]=Integer.parseInt(b.p[i].point_name);
 			      j++;		 
 			   	}

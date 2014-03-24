@@ -1,6 +1,8 @@
 package board;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -94,13 +96,67 @@ public Game() {
 		g2d.drawImage(tiger_1,X_2,Y_2,null);
 		g2d.drawImage(tiger_1,X_3,Y_3,null);
 		
+		
+		
 		for(int l=0;l<REAL.totalNoOfGoatOnTheBoard;l++){
 			
 			g2d.drawImage(goat,goat_coordinate[l][0],goat_coordinate[l][1],null);
 		}
 	
+		this.displayWhoMoves(g2d);
+		this.displayNoOfGoats(g2d);
+		this.displayWhoWins(g2d);
+		
 	}
 
+	
+	//new Function
+	
+	public void displayWhoMoves(Graphics g){
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.red);
+		Font f=new Font("purisa",Font.CENTER_BASELINE,25);
+		setFont(f);
+		
+		if(REAL.tigers_move == true){
+			g2d.drawString("This is Tiger's Move",50,100);
+		}
+		else{
+			g2d.drawString("This is Goat's Move",50,100);
+		}
+	}
+	
+	//new function 
+	
+	public void displayNoOfGoats(Graphics g){
+		
+			Graphics2D g2d = (Graphics2D) g;
+			Font f=new Font("purisa",Font.CENTER_BASELINE,25);
+			setFont(f);
+			
+			g2d.drawString("Goats Killed : "+REAL.goatKilled, 450, 100);
+		
+	}
+	
+	public void displayWhoWins(Graphics g){
+		
+		Graphics2D g2d = (Graphics2D) g;
+		Font f=new Font("purisa",Font.CENTER_BASELINE,25);
+		setFont(f);
+		if(REAL.goatWon){
+			g2d.setColor(Color.blue);
+			g2d.fillRoundRect(170, 120, 430, 100, 140, 100);
+			g2d.setColor(Color.white);
+			g2d.drawString("The Winner Is GOAT", 200, 180);
+		}
+		else if(REAL.tigerWon){
+			
+			g2d.setColor(Color.blue);
+			g2d.fillRoundRect(170, 120, 430, 100, 140, 100);
+			g2d.setColor(Color.white);
+			g2d.drawString("The Winner Is TIGER", 200, 180);
+		}
+	}
 
 	public static void playGame() {    // Called by run() from the bottom of this class
 		
