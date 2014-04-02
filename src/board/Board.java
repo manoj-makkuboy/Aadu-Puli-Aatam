@@ -226,38 +226,72 @@ public class Board  {
 		}
 		
 		
-		if(isOneRightStepVacant(tiger_status) == false ){
-			if(tiger_status.right != null){
-				if(isOneRightStepVacant(tiger_status.right) == false)
+		{
+			if(tiger_status.right == null){
+				
 					rightNotClear = true;
 			}
-			else 
+			else if(tiger_status.right.tiger == true)
 				rightNotClear = true;
+			else if(tiger_status.right.goat == true){
+				
+				if(tiger_status.right.right == null)
+					rightNotClear = true;
+				else if(tiger_status.right.right.vacant == false)
+					rightNotClear = true;
+				else 
+					rightNotClear = false;
+			}
+				
 		}
 		
-		if(isOneLeftStepVacant(tiger_status) == false )
-			if(tiger_status.left != null){
-				if(isOneLeftStepVacant(tiger_status.left) == false)
-					leftNotClear = true;
-			}
-			else
-				leftNotClear = true;
+		if(tiger_status.left == null){
+			
+			leftNotClear = true;
+	}
+	else if(tiger_status.left.tiger == true)
+		leftNotClear = true;
+	else if(tiger_status.left.goat == true){
 		
-		if(isOnetopStepVacant(tiger_status) == false )
-			if(tiger_status.top != null){
-				if(isOnetopStepVacant(tiger_status.top) == false)
-					topNotClear = true;
-			}
-			else 
-				topNotClear = true;
+		if(tiger_status.left.left == null)
+			leftNotClear = true;
+		else if(tiger_status.left.left.vacant == false)
+			leftNotClear = true;
+		else 
+			leftNotClear = false;
+	}
 		
-		if(isOnebottomStepVacant(tiger_status) == false )
-			if(tiger_status.bottom != null){
-				if(isOnebottomStepVacant(tiger_status.bottom) == false)
-					bottomNotClear = true;
-			}
-			else 
-				bottomNotClear = true;
+		if(tiger_status.top == null){
+			
+			topNotClear = true;
+	}
+	else if(tiger_status.top.tiger == true)
+		topNotClear = true;
+	else if(tiger_status.top.goat == true){
+		
+		if(tiger_status.top.top == null)
+			topNotClear = true;
+		else if(tiger_status.top.top.vacant == false)
+			topNotClear = true;
+		else 
+			topNotClear = false;
+	}
+		
+		if(tiger_status.bottom == null){
+			
+			bottomNotClear = true;
+	}
+	else if(tiger_status.bottom.tiger == true)
+		bottomNotClear = true;
+	else if(tiger_status.bottom.goat == true){
+		
+		if(tiger_status.bottom.bottom == null)
+			bottomNotClear = true;
+		else if(tiger_status.bottom.bottom.vacant == false)
+			bottomNotClear = true;
+		else 
+			bottomNotClear = false;
+	}
 		
 		if(rightNotClear && leftNotClear && topNotClear && bottomNotClear)
 			return true;
@@ -268,65 +302,14 @@ public class Board  {
 	
 	}
 	
-	boolean isOneLeftStepVacant(Coin toBeChecked){		
-		
-		
-		if(null == toBeChecked.left ){
-			return false;
-		}
-		
-		else if(toBeChecked.left.vacant == true)
-			return true;
-		
-		else 
-			return false;
-		
-	}
-	
-	
-	boolean isOneRightStepVacant(Coin toBeChecked){			
-		
-		if(null == toBeChecked.right ){
-			return false;
-		}
-		
-		else if(toBeChecked.right.vacant == true)
-			return true;
-		else 
-			return false;
-	}
-	
-boolean isOnetopStepVacant(Coin toBeChecked){
-		
-	if(null == toBeChecked.top ){
-		return false;
-	}
-	
-	else if(toBeChecked.top.vacant == true)
-		return true;
-	
-	else 
-		return false;
-	}
-	
-boolean isOnebottomStepVacant(Coin toBeChecked){
-	
-	if(null == toBeChecked.bottom ){
-		return false;
-	}
-	
-	else if(toBeChecked.bottom.vacant == true)
-		return true;
-	
-	else 
-		return false;
-}
 
 	
 	boolean isTigerWinner(){
 		
-		if(goatKilled == 5)	
+		if(goatKilled == 4)	{
+			this.tigerWon = true;
 			return true;
+		}
 		else 
 			return false;
 		

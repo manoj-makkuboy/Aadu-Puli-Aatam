@@ -4,6 +4,7 @@
 package ai;
 
 import board.Board;
+import java.util.*;
 import board.SubMenu;
 
 /**
@@ -48,6 +49,12 @@ public class MiniMax {
 			
 			
 			b.takeDecision(generatedTigerMoveForFinal[i][0], generatedTigerMoveForFinal[i][1]);
+			
+			System.out.println("This is Test VALUE :"+testValue);
+			
+		
+			
+			System.out.println("the current board value :"+analysis(b));
 		
 			}									 
 		else if(onTigerAI == false && b.tigers_move == false){		// Activation of goat AI
@@ -83,13 +90,16 @@ public class MiniMax {
 				System.out.println("The Test value is "+testValue);
 				break;
 			}
+		
 					
-		}
+		}	
 		
-
+	
 		
 		
-		b.takeDecision(generatedGoatMoveForFinal[i][0], generatedGoatMoveForFinal[i][1]);	// array out of bound exception possible.
+		b.takeDecision(generatedGoatMoveForFinal[i][0], generatedGoatMoveForFinal[i][1]); // array out of bound exception possible.
+		
+		
 		System.out.println("This is Test VALUE :"+testValue);
 		
 	
@@ -102,6 +112,8 @@ public class MiniMax {
 		
 		
 	}
+
+
 
 	int tigerValue(Board b, int depth,int alpha, int beta){
 		
@@ -120,10 +132,17 @@ public class MiniMax {
 			Board c2 = new Board(c);
 			int x = goatValue((c2),depth+1,alpha, beta);
 			
-		if (x>max) max = x;
 			
-			 if (x>alpha) alpha = x;
-				        if (alpha>=beta) return alpha;
+			
+			if (x>max) 
+				max = x;
+				
+			if (x>alpha) 
+				alpha = x;
+					        
+			if (alpha>=beta) 
+				return alpha;
+			
 				       
 		
 			        		
@@ -160,7 +179,7 @@ public class MiniMax {
 			Board c2 = new Board(c);
 			int x = tigerValue(c2,depth+1, alpha, beta);
 			
-	/*		if(depth == 0 ){
+			if(depth == 0 ){		//test code starts
 				if( x<min){			// for selecting the move for performing in the real board
 					goat_sFinalMoveToBePerformed[i] = x ;
 				}
@@ -168,12 +187,14 @@ public class MiniMax {
 					goat_sFinalMoveToBePerformed[i] = x ;
 				else if(alpha>=beta)
 					goat_sFinalMoveToBePerformed[i] = beta ;
-			} */
+			} 						// test code ends
 			
 			if(x<min)
 				min = x;
-			if (x<beta) beta = x;
-			        if (alpha>=beta) return beta;	
+			if (x<beta) 
+				beta = x;
+	        if (alpha>=beta) 
+	        	return beta;	
 			
 			if(depth == 0)
 				goat_sFinalMoveToBePerformed[i] = x ; 	
