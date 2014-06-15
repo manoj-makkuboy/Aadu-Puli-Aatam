@@ -5,7 +5,12 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -24,7 +29,7 @@ import ai.MiniMax;
 
 
 @SuppressWarnings("serial")
-public class Game extends JPanel implements MouseListener, Runnable {
+public class Game extends JPanel implements MouseListener, Runnable, ActionListener{
    static  int  X_1=380,Y_1=20,X_2=325,Y_2=225,X_3=440,Y_3=225;
    
   public  static boolean tigerAIOn = false;
@@ -70,7 +75,7 @@ void move_goat_gui(Coin goat_c[]){
 public Game() {
 	       try {
 	    	   background = ImageIO.read(new File("Project Pictures/background.jpg"));
-	           img = ImageIO.read(new File("Project Pictures/Adu-puli-kattam.png"));
+	           img = ImageIO.read(new File("Project Pictures/Adu-puli-attam.png"));
 	          
 	           tiger_1 = ImageIO.read(new File("Project Pictures/Tiger-gnu.png"));
 	           goat =  ImageIO.read(new File("Project Pictures/animals-gnu.png"));
@@ -135,6 +140,8 @@ public Game() {
 			setFont(f);
 			
 			g2d.drawString("Goats Killed : "+REAL.goatKilled, 450, 100);
+			
+			g2d.drawString("Goats Remaining : "+(15-REAL.noOfGoatsInserted),240,650 );
 		
 	}
 	
@@ -161,10 +168,39 @@ public Game() {
 	public static void playGame() {    // Called by run() from the bottom of this class
 		
 		JFrame frame = new JFrame("Aadu Puli Aatam");
+		MenuBar MB = new MenuBar();
+		
+		Menu helpMenu = new Menu("Help");
+		Menu gameMenu = new Menu("Game");
+		
+		
+		
+		MenuItem about = new MenuItem("About"); 	//items for help menu
+		MenuItem quit = new MenuItem("Quit");
+		
+		MenuItem newGame = new MenuItem("New Game");
+		
+		
+		helpMenu.add(about);
+		
+		gameMenu.add(newGame);
+		gameMenu.add(quit);
+		
+		newGame.addActionListener(game);
+		
+		
+		
+		
+		MB.add(gameMenu);
+		MB.add(helpMenu);
+		
 		
 		
 		
 		frame.add(game);
+		
+		
+		frame.setMenuBar(MB);
 		frame.setSize(800,700);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -341,8 +377,6 @@ void getInput_and_findPoint(int input_from_x,int input_from_y,int input_to_x, in
 	  
 	int gravity(int x, int y){
 		
-		
-		
 		for(int i=0;i<23;i++){
 			if((((REAL.p[i].X)-10) < x) && (x < (((REAL.p[i].X)+90))) && ((((REAL.p[i].Y)-10)) < y) 
 					&& (y < ((((REAL.p[i].Y)+90))))){
@@ -353,6 +387,20 @@ void getInput_and_findPoint(int input_from_x,int input_from_y,int input_to_x, in
 				System.out.println("The inputed co-ordinates are invalid");
 				return 777;		// default error value stating invalid position
 	
+	}
+
+
+	public void actionPerformed(ActionEvent arg0) {		// Action in response to new game menuitem
+		// TODO Auto-generated method stub
+			
+			REAL = null;
+			REAL = new Board(0);
+			
+			REAL.display();
+			
+		
+		
+		
 	}
 
 

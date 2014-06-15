@@ -63,11 +63,6 @@ public class MiniMax {
 		
 			
 		}		
-			
-		
-		
-		
-		
 		
 		
 	}
@@ -93,10 +88,7 @@ public class MiniMax {
 		
 					
 		}	
-		
-	
-		
-		
+			
 		b.takeDecision(generatedGoatMoveForFinal[i][0], generatedGoatMoveForFinal[i][1]); // array out of bound exception possible.
 		
 		
@@ -132,6 +124,15 @@ public class MiniMax {
 			Board c2 = new Board(c);
 			int x = goatValue((c2),depth+1,alpha, beta);
 			
+			if(depth == 0 ){		//test code starts
+				if( x>max){			// for selecting the move for performing in the real board
+					goat_sFinalMoveToBePerformed[i] = x ;
+				}
+				else if(x>beta)
+					goat_sFinalMoveToBePerformed[i] = x ;
+				else if(alpha>=beta)
+					goat_sFinalMoveToBePerformed[i] = alpha;
+			} 	
 			
 			
 			if (x>max) 
@@ -142,10 +143,6 @@ public class MiniMax {
 					        
 			if (alpha>=beta) 
 				return alpha;
-			
-				       
-		
-			        		
 			
 			if(depth == 0){			// for selecting the move for performing in the real board
 				tiger_sFinalMoveToBePerformed[i] = x ;

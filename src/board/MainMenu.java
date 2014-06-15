@@ -37,7 +37,7 @@ public class MainMenu extends JFrame {
 		getContentPane().setLayout(null);
 		
 		JButton btnNewButton = new JButton("Learn To Play");
-		btnNewButton.setBounds(69, 53, 234, 57);
+		btnNewButton.setBounds(105, 82, 193, 43);
 		getContentPane().add(btnNewButton);
 		
 		JButton btnHumanVsHuman = new JButton("Human Vs Human");
@@ -52,7 +52,7 @@ public class MainMenu extends JFrame {
 				menu.setVisible(false);				// to hide mainMenu when the humanVsHuman mode starts
 			}
 		});
-		btnHumanVsHuman.setBounds(69, 141, 234, 57);
+		btnHumanVsHuman.setBounds(105, 137, 193, 43);
 		getContentPane().add(btnHumanVsHuman);
 		
 		JButton btnHumanVsComputer = new JButton("Human Vs Computer");
@@ -65,7 +65,7 @@ public class MainMenu extends JFrame {
 				
 			}
 		});
-		btnHumanVsComputer.setBounds(69, 231, 234, 57);
+		btnHumanVsComputer.setBounds(105, 195, 193, 43);
 		getContentPane().add(btnHumanVsComputer);
 
 	}

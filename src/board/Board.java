@@ -58,14 +58,21 @@ public class Board  {
     directions();
     
 				//Default tiger position
-	  add_tiger(p[0]);
-	  add_tiger(p[3]);
-	  add_tiger(p[4]);
+	 initialCoinPlacement();
 	 
 	  
 	 
 	
 	} 
+	
+
+	
+	void initialCoinPlacement(){
+		
+		  add_tiger(p[0]);
+		  add_tiger(p[3]);
+		  add_tiger(p[4]);
+	}
 	
 	
 	void directions(){
@@ -179,11 +186,9 @@ public class Board  {
 	    	
 	    	
 	    }
-	
-	    
+	   
 
-	  
-	 
+	
 		
  }						// End of getInput function
 	
@@ -538,12 +543,7 @@ public class Board  {
 	  
 		  				return moveSuccess;
 	  }
-	
 
-	  
-	
-	
-	
 
 }
 
