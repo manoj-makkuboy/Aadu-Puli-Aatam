@@ -10,8 +10,7 @@ Instructions for execution [LINUX]:
 
 2. Keep both in same directory.
 
-3. If using linux, make “.jar” executable by either right clicking and    in “permission” tab, checking “allow executing file as program” or 
-<<<<<<< HEAD
+3. If using linux, make “.jar” executable by either right clicking and    in “permission” tab, checking “allow executing file as program” 
 by running “sudo chmod 777 *.jar”.
 4. Now execute by running “java -jar *.jar” in the directory.
 
@@ -20,8 +19,8 @@ Dependencies:
 =======
 	by running “sudo chmod 777 *.jar”.
 
-4. Now using java by either right clicking and opening with Java or by running “java -jar *.jar” in the directory.
->>>>>>> f8634d96b0859311a835ce3356478b812fc90390
+4. "cd" into the directory, And run the command “java -jar *.jar” in the directory.
+
 
 Need to talk??
 	Mail me at m.manoj@linuxmail.org
