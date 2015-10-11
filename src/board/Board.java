@@ -27,33 +27,33 @@ public class Board  {
 		// TODO Auto-generated method stub
   
      
-    p[0] = new Coin(380,20,"0");
+    p[0] = new Coin(390,20,"0");
     
-    p[1] = new Coin(50,225,"1");
-    p[2] = new Coin(225,225,"2");
-    p[3] = new Coin(325,225,"3");
-    p[4] = new Coin(425,225,"4");
-    p[5] = new Coin(500,225,"5");
-    p[6] = new Coin(700,220,"6");
+    p[1] = new Coin(60,235,"1");
+    p[2] = new Coin(265,235,"2");
+    p[3] = new Coin(355,235,"3");
+    p[4] = new Coin(445,235,"4");
+    p[5] = new Coin(520,235,"5");
+    p[6] = new Coin(720,235,"6");
     
-    p[7] = new Coin(50,310,"7");
-    p[8] = new Coin(200,310,"8");
-    p[9] = new Coin(320,310,"9");
-    p[10] = new Coin(450,310,"10");
-    p[11] = new Coin(550,310,"11");
-    p[12] = new Coin(700,310,"12");
+    p[7] = new Coin(63,335,"7");
+    p[8] = new Coin(208,335,"8");
+    p[9] = new Coin(330,335,"9");
+    p[10] = new Coin(465,335,"10");
+    p[11] = new Coin(575,335,"11");
+    p[12] = new Coin(723,335,"12");
     
-    p[13] = new Coin(50,395,"13");
-    p[14] = new Coin(150,395,"14");
-    p[15] = new Coin(300,395,"15");
-    p[16] = new Coin(450,395,"16");
-    p[17] = new Coin(600,395,"17");
-    p[18] = new Coin(700,395,"18");
+    p[13] = new Coin(65,420,"13");
+    p[14] = new Coin(158,420,"14");
+    p[15] = new Coin(315,420,"15");
+    p[16] = new Coin(485,420,"16");
+    p[17] = new Coin(630,420,"17");
+    p[18] = new Coin(700,420,"18");
     
-    p[19] = new Coin(50,550,"19");
-    p[20] = new Coin(250,550,"20");
-    p[21] = new Coin(500,550,"21");
-    p[22] = new Coin(700,550,"22");    
+    p[19] = new Coin(55,600,"19");
+    p[20] = new Coin(278,600,"20");
+    p[21] = new Coin(525,600,"21");
+    p[22] = new Coin(730,600,"22");    
      
     directions();
     

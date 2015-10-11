@@ -75,10 +75,12 @@ void move_goat_gui(Coin goat_c[]){
 public Game() {
 	       try {
 	    	   background = ImageIO.read(new File("Project Pictures/background.jpg"));
-	           img = ImageIO.read(new File("Project Pictures/Adu-puli-attam.png"));
+	           img = ImageIO.read(new File("Project Pictures/Adu-puli-kattam.png"));
 	          
 	           tiger_1 = ImageIO.read(new File("Project Pictures/Tiger-gnu.png"));
 	           goat =  ImageIO.read(new File("Project Pictures/animals-gnu.png"));
+	           
+	          
 	         
 	       } 
 	       catch (IOException e){
@@ -94,18 +96,18 @@ public Game() {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		
+	
 		g2d.drawImage(background,0,0,null);
+		
 		g2d.drawImage(img,0,20,null);
-		g2d.drawImage(tiger_1,X_1,Y_1,null);
-		g2d.drawImage(tiger_1,X_2,Y_2,null);
-		g2d.drawImage(tiger_1,X_3,Y_3,null);
-		
-		
+		g2d.drawImage(tiger_1,(X_1 - 20),(Y_1-20),null);
+		g2d.drawImage(tiger_1,(X_2 - 20),Y_2 -20,null);
+		g2d.drawImage(tiger_1,(X_3 - 20),Y_3 - 20,null);
+			
 		
 		for(int l=0;l<REAL.totalNoOfGoatOnTheBoard;l++){
 			
-			g2d.drawImage(goat,goat_coordinate[l][0],goat_coordinate[l][1],null);
+			g2d.drawImage(goat,goat_coordinate[l][0] - 20 ,goat_coordinate[l][1] - 20/* -20 for adjustment*/,null);  
 		}
 	
 		this.displayWhoMoves(g2d);
@@ -119,7 +121,8 @@ public Game() {
 	
 	public void displayWhoMoves(Graphics g){
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.red);
+		
+		g2d.setColor(Color.DARK_GRAY);
 		Font f=new Font("purisa",Font.CENTER_BASELINE,25);
 		setFont(f);
 		
@@ -131,6 +134,8 @@ public Game() {
 		}
 	}
 	
+	
+	
 	//new function 
 	
 	public void displayNoOfGoats(Graphics g){
@@ -139,9 +144,9 @@ public Game() {
 			Font f=new Font("purisa",Font.CENTER_BASELINE,25);
 			setFont(f);
 			
-			g2d.drawString("Goats Killed : "+REAL.goatKilled, 450, 100);
+			g2d.drawString("Goats Killed : "+REAL.goatKilled, 500, 130);
 			
-			g2d.drawString("Goats Remaining : "+(15-REAL.noOfGoatsInserted),240,650 );
+			g2d.drawString("Goats Remaining : "+(15-REAL.noOfGoatsInserted),480,100 /*240,650*/ );
 		
 	}
 	
@@ -176,7 +181,7 @@ public Game() {
 		
 		
 		MenuItem about = new MenuItem("About"); 	//items for help menu
-		MenuItem quit = new MenuItem("Quit");
+				
 		
 		MenuItem newGame = new MenuItem("New Game");
 		
@@ -184,7 +189,7 @@ public Game() {
 		helpMenu.add(about);
 		
 		gameMenu.add(newGame);
-		gameMenu.add(quit);
+		
 		
 		newGame.addActionListener(game);
 		
@@ -378,8 +383,8 @@ void getInput_and_findPoint(int input_from_x,int input_from_y,int input_to_x, in
 	int gravity(int x, int y){
 		
 		for(int i=0;i<23;i++){
-			if((((REAL.p[i].X)-10) < x) && (x < (((REAL.p[i].X)+90))) && ((((REAL.p[i].Y)-10)) < y) 
-					&& (y < ((((REAL.p[i].Y)+90))))){
+			if((x > ( REAL.p[i].X -50 )) && (( x < (REAL.p[i].X +50))) && (y > (REAL.p[i].Y -10)) 
+					&& (( y < (REAL.p[i].Y + 90)))){
 				return i;
 			}
 		}
