@@ -21,9 +21,14 @@ Dependencies:
 
 4. "cd" into the directory, And run the command “java -jar *.jar” in the directory.
 
+Screenshots:
+============
+![Alt text](https://github.com/manoj-makkuboy/Aadu-Puli-Aatam/blob/master/Screen%20Shots/Goat%20wins.png?raw=true "Optional Title")
+![Alt text](https://github.com/manoj-makkuboy/Aadu-Puli-Aatam/blob/master/Screen%20Shots/Initial%20Board.png?raw=true "Optional Title")
+![Alt text](https://github.com/manoj-makkuboy/Aadu-Puli-Aatam/blob/master/Screen%20Shots/Tiger%20wins.png?raw=true "Optional Title")
+
+
 
 Need to talk??
 	Mail me at m.manoj@linuxmail.org
-
-	    	 
 	
