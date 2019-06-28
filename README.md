@@ -30,5 +30,5 @@ Screenshots:
 
 
 Need to talk??
-	Mail me at m.manoj@linuxmail.org
+	Mail me at m.manoj (at) linuxmail.org
 	
